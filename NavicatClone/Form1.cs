@@ -1,21 +1,14 @@
-
+using System;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace NavicatClone
 {
-    
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
-        }
-
-
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void ConnectButton_Click(object sender, EventArgs e)
@@ -52,15 +45,43 @@ namespace NavicatClone
                     try
                     {
                         sqlConnection.Open();
-                        // Connection is now open, you can perform database operations here
 
-                        // Don't forget to close the connection when done
-                        sqlConnection.Close();
+                        // Fetch the list of databases
+                        SqlCommand command = new SqlCommand("SELECT name FROM sys.databases WHERE database_id > 4", sqlConnection);
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        // Clear existing nodes in your TreeView
+                        treeView1.Nodes.Clear();
+
+                        // Add a root node to the TreeView (optional)
+                        TreeNode rootNode = new TreeNode("Databases");
+                        treeView1.Nodes.Add(rootNode);
+
+                        // Add retrieved database names as child nodes to the root node or directly to the TreeView
+                        while (reader.Read())
+                        {
+                            string dbName = reader["name"].ToString();
+
+                            // Create a new TreeNode for the database name
+                            TreeNode dbNode = new TreeNode(dbName);
+
+                            // Add the database node to the root node or directly to the TreeView
+                            treeView1.Nodes.Add(dbNode); // Or rootNode.Nodes.Add(dbNode) if you want to add it under a root node
+
+                            // You can also add further child nodes or details here if needed
+                        }
+
+                        reader.Close();
                     }
                     catch (Exception ex)
                     {
                         // Handle connection errors here
                         MessageBox.Show($"Error: {ex.Message}");
+                    }
+                    finally
+                    {
+                        // Don't forget to close the connection when done
+                        sqlConnection.Close();
                     }
                 }
             }
