@@ -66,7 +66,7 @@
             Controls.Add(panel1);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Navicat Clone";
             Load += Form1_Load;
             panel1.ResumeLayout(false);
             ResumeLayout(false);
