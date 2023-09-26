@@ -32,6 +32,7 @@
             panel1 = new Panel();
             panel2 = new Panel();
             treeView1 = new TreeView();
+            button1 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -53,6 +54,7 @@
             // panel1
             // 
             panel1.BackColor = Color.WhiteSmoke;
+            panel1.Controls.Add(button1);
             panel1.Controls.Add(ConnectButton);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
@@ -77,6 +79,20 @@
             treeView1.Size = new Size(250, 667);
             treeView1.TabIndex = 0;
             // 
+            // button1
+            // 
+            button1.Image = Properties.Resources.link__3_;
+            button1.ImageAlign = ContentAlignment.TopCenter;
+            button1.Location = new Point(158, 12);
+            button1.Name = "button1";
+            button1.Padding = new Padding(0, 5, 0, 5);
+            button1.Size = new Size(214, 61);
+            button1.TabIndex = 1;
+            button1.Text = "Structure Synchronization";
+            button1.TextAlign = ContentAlignment.BottomCenter;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -88,7 +104,6 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Navicat Clone";
-           
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             ResumeLayout(false);
@@ -100,5 +115,6 @@
         private Panel panel1;
         private Panel panel2;
         private TreeView treeView1;
+        private Button button1;
     }
 }
