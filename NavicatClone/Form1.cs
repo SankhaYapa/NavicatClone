@@ -1,5 +1,9 @@
+
+using System.Data.SqlClient;
+
 namespace NavicatClone
 {
+    
     public partial class Form1 : Form
     {
         public Form1()
@@ -28,9 +32,36 @@ namespace NavicatClone
                     string username = connectionForm.Username;
                     string password = connectionForm.Password;
 
-                    //Use the connection details as needed
-                    // For example, you can establish a database connection here
-                    // Example: SqlConnection sqlConnection = new SqlConnection(connectionString);
+                    // Build the connection string based on the user's input
+                    string connectionString = "";
+
+                    if (authenticationType == "Windows Authentication")
+                    {
+                        // Windows Authentication
+                        connectionString = $"Data Source={host};Initial Catalog={initialDatabase};Integrated Security=True";
+                    }
+                    else
+                    {
+                        // SQL Server Authentication
+                        connectionString = $"Data Source={host};Initial Catalog={initialDatabase};User ID={username};Password={password}";
+                    }
+
+                    // Establish a database connection
+                    SqlConnection sqlConnection = new SqlConnection(connectionString);
+
+                    try
+                    {
+                        sqlConnection.Open();
+                        // Connection is now open, you can perform database operations here
+
+                        // Don't forget to close the connection when done
+                        sqlConnection.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        // Handle connection errors here
+                        MessageBox.Show($"Error: {ex.Message}");
+                    }
                 }
             }
         }
