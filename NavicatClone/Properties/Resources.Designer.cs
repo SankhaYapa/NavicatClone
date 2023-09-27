@@ -63,6 +63,16 @@ namespace NavicatClone.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap db {
+            get {
+                object obj = ResourceManager.GetObject("db", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap link__2_ {
             get {
                 object obj = ResourceManager.GetObject("link__2_", resourceCulture);
@@ -76,6 +86,26 @@ namespace NavicatClone.Properties {
         internal static System.Drawing.Bitmap link__3_ {
             get {
                 object obj = ResourceManager.GetObject("link__3_", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap right_arroW {
+            get {
+                object obj = ResourceManager.GetObject("right_arroW", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap swap {
+            get {
+                object obj = ResourceManager.GetObject("swap", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
