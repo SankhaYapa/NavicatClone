@@ -90,6 +90,15 @@ namespace NavicatClone
         private void button1_Click(object sender, EventArgs e)
         {
 
+            using (SyncronizationForm synchronizeForm = new SyncronizationForm())
+            {
+                if (synchronizeForm.ShowDialog() == DialogResult.OK)
+                {
+
+                /// dialogg                  
+                }
+            }
+
         }
     }
 }

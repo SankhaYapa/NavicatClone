@@ -75,6 +75,7 @@
             InitialDatabaseTextBox.Name = "InitialDatabaseTextBox";
             InitialDatabaseTextBox.Size = new Size(284, 27);
             InitialDatabaseTextBox.TabIndex = 5;
+            InitialDatabaseTextBox.Visible = false;
             // 
             // label3
             // 
@@ -84,6 +85,7 @@
             label3.Size = new Size(109, 20);
             label3.TabIndex = 4;
             label3.Text = "InitialDatabase";
+            label3.Visible = false;
             // 
             // HostTextBox
             // 
@@ -107,6 +109,7 @@
             UsernameTextBox.Name = "UsernameTextBox";
             UsernameTextBox.Size = new Size(284, 27);
             UsernameTextBox.TabIndex = 9;
+            UsernameTextBox.Visible = false;
             // 
             // label5
             // 
@@ -116,6 +119,7 @@
             label5.Size = new Size(75, 20);
             label5.TabIndex = 8;
             label5.Text = "Username";
+            label5.Visible = false;
             // 
             // PasswordTextBox
             // 
@@ -123,6 +127,7 @@
             PasswordTextBox.Name = "PasswordTextBox";
             PasswordTextBox.Size = new Size(284, 27);
             PasswordTextBox.TabIndex = 11;
+            PasswordTextBox.Visible = false;
             // 
             // label6
             // 
@@ -132,6 +137,7 @@
             label6.Size = new Size(70, 20);
             label6.TabIndex = 10;
             label6.Text = "Password";
+            label6.Visible = false;
             // 
             // connect_ok
             // 
