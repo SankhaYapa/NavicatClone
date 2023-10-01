@@ -29,11 +29,16 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            pictureBox4 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            label24 = new Label();
+            label23 = new Label();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
+            sourceComboBox = new ComboBox();
+            sourceDatabaseComboBox = new ComboBox();
             label4 = new Label();
             label5 = new Label();
             label6 = new Label();
@@ -45,8 +50,8 @@
             label12 = new Label();
             label13 = new Label();
             label14 = new Label();
-            comboBox3 = new ComboBox();
-            comboBox4 = new ComboBox();
+            targetDatabaseComboBox = new ComboBox();
+            targetComboBox = new ComboBox();
             label15 = new Label();
             label16 = new Label();
             label17 = new Label();
@@ -56,16 +61,14 @@
             label21 = new Label();
             label22 = new Label();
             pictureBox1 = new PictureBox();
-            label23 = new Label();
-            label24 = new Label();
-            pictureBox2 = new PictureBox();
-            pictureBox3 = new PictureBox();
-            pictureBox4 = new PictureBox();
+            connectionName = new Label();
+            connectionTName = new Label();
+            Compaire_btn = new Button();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -81,6 +84,53 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1182, 79);
             panel1.TabIndex = 0;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.Image = Properties.Resources.right_arroW;
+            pictureBox4.Location = new Point(578, 39);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(25, 18);
+            pictureBox4.TabIndex = 4;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = Properties.Resources.db;
+            pictureBox3.Location = new Point(667, 31);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(36, 36);
+            pictureBox3.TabIndex = 3;
+            pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = Properties.Resources.db;
+            pictureBox2.Location = new Point(477, 31);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(36, 36);
+            pictureBox2.TabIndex = 2;
+            pictureBox2.TabStop = false;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(716, 31);
+            label24.Name = "label24";
+            label24.Size = new Size(117, 20);
+            label24.TabIndex = 1;
+            label24.Text = "Target Database";
+            label24.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new Point(350, 31);
+            label23.Name = "label23";
+            label23.Size = new Size(121, 20);
+            label23.TabIndex = 0;
+            label23.Text = "Source Database";
+            label23.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label1
             // 
@@ -108,23 +158,22 @@
             label3.Size = new Size(72, 20);
             label3.TabIndex = 3;
             label3.Text = "Database";
-            label3.Click += label3_Click;
             // 
-            // comboBox1
+            // sourceComboBox
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(60, 175);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(464, 28);
-            comboBox1.TabIndex = 4;
+            sourceComboBox.FormattingEnabled = true;
+            sourceComboBox.Location = new Point(60, 175);
+            sourceComboBox.Name = "sourceComboBox";
+            sourceComboBox.Size = new Size(464, 28);
+            sourceComboBox.TabIndex = 4;
             // 
-            // comboBox2
+            // sourceDatabaseComboBox
             // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(60, 263);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(464, 28);
-            comboBox2.TabIndex = 5;
+            sourceDatabaseComboBox.FormattingEnabled = true;
+            sourceDatabaseComboBox.Location = new Point(60, 263);
+            sourceDatabaseComboBox.Name = "sourceDatabaseComboBox";
+            sourceDatabaseComboBox.Size = new Size(464, 28);
+            sourceDatabaseComboBox.TabIndex = 5;
             // 
             // label4
             // 
@@ -226,21 +275,21 @@
             label14.TabIndex = 18;
             label14.Text = "Server Version:";
             // 
-            // comboBox3
+            // targetDatabaseComboBox
             // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(667, 263);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(464, 28);
-            comboBox3.TabIndex = 20;
+            targetDatabaseComboBox.FormattingEnabled = true;
+            targetDatabaseComboBox.Location = new Point(667, 263);
+            targetDatabaseComboBox.Name = "targetDatabaseComboBox";
+            targetDatabaseComboBox.Size = new Size(464, 28);
+            targetDatabaseComboBox.TabIndex = 20;
             // 
-            // comboBox4
+            // targetComboBox
             // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(667, 175);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(464, 28);
-            comboBox4.TabIndex = 19;
+            targetComboBox.FormattingEnabled = true;
+            targetComboBox.Location = new Point(667, 175);
+            targetComboBox.Name = "targetComboBox";
+            targetComboBox.Size = new Size(464, 28);
+            targetComboBox.TabIndex = 19;
             // 
             // label15
             // 
@@ -324,59 +373,43 @@
             pictureBox1.TabIndex = 29;
             pictureBox1.TabStop = false;
             // 
-            // label23
+            // connectionName
             // 
-            label23.AutoSize = true;
-            label23.Location = new Point(350, 31);
-            label23.Name = "label23";
-            label23.Size = new Size(121, 20);
-            label23.TabIndex = 0;
-            label23.Text = "Source Database";
-            label23.TextAlign = ContentAlignment.MiddleRight;
+            connectionName.AutoSize = true;
+            connectionName.Location = new Point(215, 478);
+            connectionName.Name = "connectionName";
+            connectionName.Size = new Size(21, 20);
+            connectionName.TabIndex = 30;
+            connectionName.Text = "--";
             // 
-            // label24
+            // connectionTName
             // 
-            label24.AutoSize = true;
-            label24.Location = new Point(716, 31);
-            label24.Name = "label24";
-            label24.Size = new Size(117, 20);
-            label24.TabIndex = 1;
-            label24.Text = "Target Database";
-            label24.TextAlign = ContentAlignment.MiddleRight;
+            connectionTName.AutoSize = true;
+            connectionTName.Location = new Point(839, 478);
+            connectionTName.Name = "connectionTName";
+            connectionTName.Size = new Size(21, 20);
+            connectionTName.TabIndex = 31;
+            connectionTName.Text = "--";
             // 
-            // pictureBox2
+            // Compaire_btn
             // 
-            pictureBox2.Image = Properties.Resources.db;
-            pictureBox2.Location = new Point(477, 31);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(36, 36);
-            pictureBox2.TabIndex = 2;
-            pictureBox2.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = Properties.Resources.db;
-            pictureBox3.Location = new Point(667, 31);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(36, 36);
-            pictureBox3.TabIndex = 3;
-            pictureBox3.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            pictureBox4.Image = Properties.Resources.right_arroW;
-            pictureBox4.Location = new Point(578, 39);
-            pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(25, 18);
-            pictureBox4.TabIndex = 4;
-            pictureBox4.TabStop = false;
+            Compaire_btn.Location = new Point(1037, 645);
+            Compaire_btn.Name = "Compaire_btn";
+            Compaire_btn.Size = new Size(94, 29);
+            Compaire_btn.TabIndex = 32;
+            Compaire_btn.Text = "Compaire";
+            Compaire_btn.UseVisualStyleBackColor = true;
+            Compaire_btn.Click += Compaire_btn_Click;
             // 
             // SyncronizationForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1182, 653);
+            ClientSize = new Size(1182, 686);
+            Controls.Add(Compaire_btn);
+            Controls.Add(connectionTName);
+            Controls.Add(connectionName);
             Controls.Add(pictureBox1);
             Controls.Add(label15);
             Controls.Add(label16);
@@ -386,8 +419,8 @@
             Controls.Add(label20);
             Controls.Add(label21);
             Controls.Add(label22);
-            Controls.Add(comboBox3);
-            Controls.Add(comboBox4);
+            Controls.Add(targetDatabaseComboBox);
+            Controls.Add(targetComboBox);
             Controls.Add(label14);
             Controls.Add(label13);
             Controls.Add(label12);
@@ -399,8 +432,8 @@
             Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(label4);
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
+            Controls.Add(sourceDatabaseComboBox);
+            Controls.Add(sourceComboBox);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -410,10 +443,10 @@
             Text = "SyncronizationForm";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -424,8 +457,8 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private ComboBox comboBox1;
-        private ComboBox comboBox2;
+        private ComboBox sourceComboBox;
+        private ComboBox sourceDatabaseComboBox;
         private Label label4;
         private Label label5;
         private Label label6;
@@ -437,8 +470,8 @@
         private Label label12;
         private Label label13;
         private Label label14;
-        private ComboBox comboBox3;
-        private ComboBox comboBox4;
+        private ComboBox targetDatabaseComboBox;
+        private ComboBox targetComboBox;
         private Label label15;
         private Label label16;
         private Label label17;
@@ -453,5 +486,8 @@
         private PictureBox pictureBox4;
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
+        private Label connectionName;
+        private Label connectionTName;
+        private Button Compaire_btn;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -6,6 +7,9 @@ namespace NavicatClone
 {
     public partial class Form1 : Form
     {
+        // Define a list to store connection details
+        private List<ConnectionDetails> connections = new List<ConnectionDetails>();
+
         public Form1()
         {
             InitializeComponent();
@@ -18,25 +22,31 @@ namespace NavicatClone
                 if (connectionForm.ShowDialog() == DialogResult.OK)
                 {
                     // Retrieve the connection details from the connectionForm instance
-                    string connectionName = connectionForm.ConnectionName;
-                    string host = connectionForm.Host;
-                    string initialDatabase = connectionForm.InitialDatabase;
-                    string authenticationType = connectionForm.AuthenticationType;
-                    string username = connectionForm.Username;
-                    string password = connectionForm.Password;
+                    ConnectionDetails connectionDetails = new ConnectionDetails
+                    {
+                        ConnectionName = connectionForm.ConnectionName,
+                        Host = connectionForm.Host,
+                        InitialDatabase = connectionForm.InitialDatabase,
+                        AuthenticationType = connectionForm.AuthenticationType,
+                        Username = connectionForm.Username,
+                        Password = connectionForm.Password
+                    };
+
+                    // Add the connection details to the list
+                    connections.Add(connectionDetails);
 
                     // Build the connection string based on the user's input
                     string connectionString = "";
 
-                    if (authenticationType == "Windows Authentication")
+                    if (connectionDetails.AuthenticationType == "Windows Authentication")
                     {
                         // Windows Authentication
-                        connectionString = $"Data Source={host};Initial Catalog={initialDatabase};Integrated Security=True";
+                        connectionString = $"Data Source={connectionDetails.Host};Initial Catalog={connectionDetails.InitialDatabase};Integrated Security=True";
                     }
                     else
                     {
                         // SQL Server Authentication
-                        connectionString = $"Data Source={host};Initial Catalog={initialDatabase};User ID={username};Password={password}";
+                        connectionString = $"Data Source={connectionDetails.Host};Initial Catalog={connectionDetails.InitialDatabase};User ID={connectionDetails.Username};Password={connectionDetails.Password}";
                     }
 
                     // Establish a database connection
@@ -46,18 +56,17 @@ namespace NavicatClone
                     {
                         sqlConnection.Open();
 
+                        // Create a TreeNode for the connectionName as the root node
+                        TreeNode connectionNode = new TreeNode(connectionDetails.ConnectionName);
+
                         // Fetch the list of databases
                         SqlCommand command = new SqlCommand("SELECT name FROM sys.databases WHERE database_id > 4", sqlConnection);
                         SqlDataReader reader = command.ExecuteReader();
 
-                        // Clear existing nodes in your TreeView
-                        treeView1.Nodes.Clear();
+                        // Add the connectionNode as a child node in the TreeView
+                        treeView1.Nodes.Add(connectionNode);
 
-                        // Add a root node to the TreeView (optional)
-                        TreeNode rootNode = new TreeNode("Databases");
-                        treeView1.Nodes.Add(rootNode);
-
-                        // Add retrieved database names as child nodes to the root node or directly to the TreeView
+                        // Add retrieved database names as child nodes to the connectionNode
                         while (reader.Read())
                         {
                             string dbName = reader["name"].ToString();
@@ -65,8 +74,8 @@ namespace NavicatClone
                             // Create a new TreeNode for the database name
                             TreeNode dbNode = new TreeNode(dbName);
 
-                            // Add the database node to the root node or directly to the TreeView
-                            treeView1.Nodes.Add(dbNode); // Or rootNode.Nodes.Add(dbNode) if you want to add it under a root node
+                            // Add the database node to the connectionNode
+                            connectionNode.Nodes.Add(dbNode);
 
                             // You can also add further child nodes or details here if needed
                         }
@@ -89,16 +98,29 @@ namespace NavicatClone
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-            using (SyncronizationForm synchronizeForm = new SyncronizationForm())
+            using (SyncronizationForm synchronizeForm = new SyncronizationForm(connections))
             {
                 if (synchronizeForm.ShowDialog() == DialogResult.OK)
                 {
+                    // Handle synchronization here using the selected source and target connections
+                    string sourceConnectionName = synchronizeForm.SelectedSourceConnection;
+                    string targetConnectionName = synchronizeForm.SelectedTargetConnection;
 
-                /// dialogg                  
+
+                    // You can use the selected connection names to perform synchronization tasks
                 }
             }
-
         }
+    }
+
+    // Define a class to represent connection details
+    public class ConnectionDetails
+    {
+        public string ConnectionName { get; set; }
+        public string Host { get; set; }
+        public string InitialDatabase { get; set; }
+        public string AuthenticationType { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }
