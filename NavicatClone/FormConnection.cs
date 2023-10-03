@@ -34,12 +34,18 @@ namespace NavicatClone
         {
             ConnectionName = ConnectionNameTextBox.Text;
             Host = HostTextBox.Text;
-             InitialDatabase = InitialDatabaseTextBox.Text;
+            InitialDatabase = InitialDatabaseTextBox.Text;
             AuthenticationType = AuthenticationComboBox.SelectedItem.ToString();
-             Username = UsernameTextBox.Text;
-             Password = PasswordTextBox.Text;
+            Username = UsernameTextBox.Text;
+            Password = PasswordTextBox.Text;
 
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void cancel_btn_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

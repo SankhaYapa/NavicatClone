@@ -59,6 +59,7 @@ namespace NavicatClone
                         // Create a TreeNode for the connectionName as the root node
                         TreeNode connectionNode = new TreeNode(connectionDetails.ConnectionName);
 
+
                         // Fetch the list of databases
                         SqlCommand command = new SqlCommand("SELECT name FROM sys.databases WHERE database_id > 4", sqlConnection);
                         SqlDataReader reader = command.ExecuteReader();
