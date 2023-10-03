@@ -42,6 +42,9 @@
             connect_ok = new Button();
             cancel_btn = new Button();
             AuthenticationComboBox = new ComboBox();
+            label7 = new Label();
+            label8 = new Label();
+            textBox1 = new TextBox();
             SuspendLayout();
             // 
             // label1
@@ -63,7 +66,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 191);
+            label2.Location = new Point(3, 155);
             label2.Name = "label2";
             label2.Size = new Size(137, 20);
             label2.TabIndex = 2;
@@ -71,7 +74,7 @@
             // 
             // InitialDatabaseTextBox
             // 
-            InitialDatabaseTextBox.Location = new Point(151, 142);
+            InitialDatabaseTextBox.Location = new Point(151, 192);
             InitialDatabaseTextBox.Name = "InitialDatabaseTextBox";
             InitialDatabaseTextBox.Size = new Size(284, 27);
             InitialDatabaseTextBox.TabIndex = 5;
@@ -80,7 +83,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 149);
+            label3.Location = new Point(12, 192);
             label3.Name = "label3";
             label3.Size = new Size(109, 20);
             label3.TabIndex = 4;
@@ -162,10 +165,38 @@
             // 
             AuthenticationComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             AuthenticationComboBox.FormattingEnabled = true;
-            AuthenticationComboBox.Location = new Point(151, 188);
+            AuthenticationComboBox.Location = new Point(151, 152);
             AuthenticationComboBox.Name = "AuthenticationComboBox";
             AuthenticationComboBox.Size = new Size(284, 28);
             AuthenticationComboBox.TabIndex = 14;
+            AuthenticationComboBox.SelectedIndexChanged += AuthenticationComboBox_SelectedIndexChanged;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(3, 152);
+            label7.Name = "label7";
+            label7.Size = new Size(137, 20);
+            label7.TabIndex = 2;
+            label7.Text = "AuthenticationType";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(12, 192);
+            label8.Name = "label8";
+            label8.Size = new Size(109, 20);
+            label8.TabIndex = 4;
+            label8.Text = "InitialDatabase";
+            label8.Visible = false;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(151, 192);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(284, 27);
+            textBox1.TabIndex = 5;
+            textBox1.Visible = false;
             // 
             // FormConnection
             // 
@@ -182,7 +213,10 @@
             Controls.Add(label5);
             Controls.Add(HostTextBox);
             Controls.Add(label4);
+            Controls.Add(textBox1);
+            Controls.Add(label8);
             Controls.Add(InitialDatabaseTextBox);
+            Controls.Add(label7);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(ConnectionNameTextBox);
@@ -211,5 +245,8 @@
         private Button connect_ok;
         private Button cancel_btn;
         private ComboBox AuthenticationComboBox;
+        private Label label7;
+        private Label label8;
+        private TextBox textBox1;
     }
 }

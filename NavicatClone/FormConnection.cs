@@ -39,10 +39,10 @@ namespace NavicatClone
         {
             ConnectionName = ConnectionNameTextBox.Text;
             Host = HostTextBox.Text;
-             InitialDatabase = InitialDatabaseTextBox.Text;
             AuthenticationType = AuthenticationComboBox.SelectedItem.ToString();
-             Username = UsernameTextBox.Text;
-             Password = PasswordTextBox.Text;
+            InitialDatabase = InitialDatabaseTextBox.Text;
+            Username = UsernameTextBox.Text;
+            Password = PasswordTextBox.Text;
 
             this.DialogResult = DialogResult.OK;
         }
@@ -59,6 +59,8 @@ namespace NavicatClone
                 label6.Visible = false;
                 UsernameTextBox.Visible = false;
                 PasswordTextBox.Visible = false;
+                label3.Visible = false;
+                InitialDatabaseTextBox.Visible = false;
             }
             else
             {
@@ -67,8 +69,11 @@ namespace NavicatClone
                 label6.Visible = true;
                 UsernameTextBox.Visible = true;
                 PasswordTextBox.Visible = true;
+                label3.Visible = true;
+                InitialDatabaseTextBox.Visible = true;
             }
         }
+
 
     }
 }
