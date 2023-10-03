@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SyncronizationForm));
             panel1 = new Panel();
             pictureBox4 = new PictureBox();
             pictureBox3 = new PictureBox();
@@ -96,7 +97,7 @@
             // 
             // pictureBox3
             // 
-            pictureBox3.Image = Properties.Resources.db;
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
             pictureBox3.Location = new Point(667, 31);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(36, 36);
@@ -105,7 +106,7 @@
             // 
             // pictureBox2
             // 
-            pictureBox2.Image = Properties.Resources.db;
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
             pictureBox2.Location = new Point(477, 31);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(36, 36);
