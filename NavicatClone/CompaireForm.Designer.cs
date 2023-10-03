@@ -28,61 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new Panel();
-            sourceTreeView = new TreeView();
-            panel2 = new Panel();
-            targetTreeView = new TreeView();
-            panel1.SuspendLayout();
-            panel2.SuspendLayout();
+            panel3 = new Panel();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // panel3
             // 
-            panel1.Controls.Add(sourceTreeView);
-            panel1.Dock = DockStyle.Left;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(385, 532);
-            panel1.TabIndex = 0;
+            panel3.Controls.Add(pictureBox3);
+            panel3.Controls.Add(pictureBox2);
+            panel3.Controls.Add(pictureBox1);
+            panel3.Dock = DockStyle.Top;
+            panel3.Location = new Point(0, 0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(1182, 100);
+            panel3.TabIndex = 0;
             // 
-            // sourceTreeView
+            // pictureBox1
             // 
-            sourceTreeView.Dock = DockStyle.Fill;
-            sourceTreeView.Location = new Point(0, 0);
-            sourceTreeView.Name = "sourceTreeView";
-            sourceTreeView.Size = new Size(385, 532);
-            sourceTreeView.TabIndex = 0;
+            pictureBox1.Image = Properties.Resources.right_arroW;
+            pictureBox1.Location = new Point(616, 43);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(23, 22);
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
             // 
-            // panel2
+            // pictureBox2
             // 
-            panel2.Controls.Add(targetTreeView);
-            panel2.Dock = DockStyle.Right;
-            panel2.Location = new Point(387, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(413, 532);
-            panel2.TabIndex = 1;
+            pictureBox2.Location = new Point(453, 23);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(125, 62);
+            pictureBox2.TabIndex = 1;
+            pictureBox2.TabStop = false;
             // 
-            // targetTreeView
+            // pictureBox3
             // 
-            targetTreeView.Dock = DockStyle.Fill;
-            targetTreeView.Location = new Point(0, 0);
-            targetTreeView.Name = "targetTreeView";
-            targetTreeView.Size = new Size(413, 532);
-            targetTreeView.TabIndex = 0;
+            pictureBox3.Location = new Point(676, 23);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(125, 62);
+            pictureBox3.TabIndex = 2;
+            pictureBox3.TabStop = false;
             // 
             // CompaireForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(800, 532);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
+            ClientSize = new Size(1182, 686);
+            Controls.Add(panel3);
             Name = "CompaireForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "CompaireForm";
-            panel1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
+            Text = "CompairForm";
+            panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
         }
 
@@ -92,5 +97,9 @@
         private TreeView sourceTreeView;
         private Panel panel2;
         private TreeView targetTreeView;
+        private Panel panel3;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox1;
     }
 }
