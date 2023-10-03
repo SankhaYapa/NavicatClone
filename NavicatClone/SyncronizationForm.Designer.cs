@@ -65,6 +65,10 @@
             connectionName = new Label();
             connectionTName = new Label();
             Compaire_btn = new Button();
+            label25 = new Label();
+            HostLabel = new Label();
+            label26 = new Label();
+            label27 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -402,12 +406,52 @@
             Compaire_btn.UseVisualStyleBackColor = true;
             Compaire_btn.Click += Compaire_btn_Click;
             // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(216, 445);
+            label25.Name = "label25";
+            label25.Size = new Size(15, 20);
+            label25.TabIndex = 33;
+            label25.Text = "-";
+            // 
+            // HostLabel
+            // 
+            HostLabel.AutoSize = true;
+            HostLabel.Location = new Point(128, 517);
+            HostLabel.Name = "HostLabel";
+            HostLabel.Size = new Size(21, 20);
+            HostLabel.TabIndex = 34;
+            HostLabel.Text = "--";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new Point(830, 441);
+            label26.Name = "label26";
+            label26.Size = new Size(21, 20);
+            label26.TabIndex = 35;
+            label26.Text = "--";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(751, 517);
+            label27.Name = "label27";
+            label27.Size = new Size(21, 20);
+            label27.TabIndex = 36;
+            label27.Text = "--";
+            // 
             // SyncronizationForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1182, 686);
+            Controls.Add(label27);
+            Controls.Add(label26);
+            Controls.Add(HostLabel);
+            Controls.Add(label25);
             Controls.Add(Compaire_btn);
             Controls.Add(connectionTName);
             Controls.Add(connectionName);
@@ -490,5 +534,9 @@
         private Label connectionName;
         private Label connectionTName;
         private Button Compaire_btn;
+        private Label label25;
+        private Label HostLabel;
+        private Label label26;
+        private Label label27;
     }
 }
