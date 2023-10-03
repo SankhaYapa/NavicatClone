@@ -45,11 +45,18 @@
             treeView1 = new TreeView();
             treeView2 = new TreeView();
             label8 = new Label();
+            panel4 = new Panel();
+            label10 = new Label();
+            label9 = new Label();
+            label11 = new Label();
+            textBox1 = new TextBox();
+            textBox2 = new TextBox();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // panel3
@@ -151,9 +158,9 @@
             // label7
             // 
             label7.BorderStyle = BorderStyle.FixedSingle;
-            label7.Location = new Point(711, -1);
+            label7.Location = new Point(666, -1);
             label7.Name = "label7";
-            label7.Size = new Size(470, 35);
+            label7.Size = new Size(515, 35);
             label7.TabIndex = 2;
             label7.Text = "Target Object";
             label7.TextAlign = ContentAlignment.MiddleCenter;
@@ -161,7 +168,7 @@
             // label6
             // 
             label6.BorderStyle = BorderStyle.FixedSingle;
-            label6.Location = new Point(562, 0);
+            label6.Location = new Point(523, 0);
             label6.Name = "label6";
             label6.Size = new Size(149, 33);
             label6.TabIndex = 1;
@@ -173,7 +180,7 @@
             label5.BorderStyle = BorderStyle.FixedSingle;
             label5.Location = new Point(-1, 0);
             label5.Name = "label5";
-            label5.Size = new Size(563, 34);
+            label5.Size = new Size(525, 34);
             label5.TabIndex = 0;
             label5.Text = "Source Object";
             label5.TextAlign = ContentAlignment.MiddleCenter;
@@ -182,25 +189,82 @@
             // 
             treeView1.Location = new Point(0, 144);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(563, 304);
+            treeView1.Size = new Size(525, 304);
             treeView1.TabIndex = 3;
             // 
             // treeView2
             // 
-            treeView2.Location = new Point(712, 143);
+            treeView2.Location = new Point(674, 146);
             treeView2.Name = "treeView2";
-            treeView2.Size = new Size(470, 305);
+            treeView2.Size = new Size(505, 305);
             treeView2.TabIndex = 4;
             // 
             // label8
             // 
             label8.BorderStyle = BorderStyle.FixedSingle;
-            label8.Location = new Point(569, 144);
+            label8.Location = new Point(531, 147);
             label8.Name = "label8";
             label8.Size = new Size(137, 304);
             label8.TabIndex = 5;
             label8.Text = "=";
             label8.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(textBox2);
+            panel4.Controls.Add(textBox1);
+            panel4.Controls.Add(label11);
+            panel4.Controls.Add(label10);
+            panel4.Controls.Add(label9);
+            panel4.Location = new Point(0, 454);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(1182, 235);
+            panel4.TabIndex = 6;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(16, 33);
+            label10.Name = "label10";
+            label10.Size = new Size(52, 20);
+            label10.TabIndex = 1;
+            label10.Text = "Table1";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(12, 11);
+            label9.Name = "label9";
+            label9.Size = new Size(122, 20);
+            label9.TabIndex = 0;
+            label9.Text = "DDL Comparison";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(684, 33);
+            label11.Name = "label11";
+            label11.Size = new Size(52, 20);
+            label11.TabIndex = 2;
+            label11.Text = "Table2";
+            // 
+            // textBox1
+            // 
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.Location = new Point(16, 56);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(509, 151);
+            textBox1.TabIndex = 3;
+            // 
+            // textBox2
+            // 
+            textBox2.BorderStyle = BorderStyle.FixedSingle;
+            textBox2.Location = new Point(674, 56);
+            textBox2.Multiline = true;
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(505, 151);
+            textBox2.TabIndex = 4;
             // 
             // CompaireForm
             // 
@@ -208,6 +272,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1182, 686);
+            Controls.Add(panel4);
             Controls.Add(label8);
             Controls.Add(treeView2);
             Controls.Add(treeView1);
@@ -223,6 +288,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel2.ResumeLayout(false);
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -246,5 +313,11 @@
         private TreeView treeView1;
         private TreeView treeView2;
         private Label label8;
+        private Panel panel4;
+        private Label label10;
+        private Label label9;
+        private Label label11;
+        private TextBox textBox2;
+        private TextBox textBox1;
     }
 }
