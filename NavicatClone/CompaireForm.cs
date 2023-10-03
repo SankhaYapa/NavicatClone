@@ -15,58 +15,60 @@ namespace NavicatClone
             InitializeComponent();
             this.selectedSourceDatabase = selectedSourceDatabase;
             this.selectedTargetDatabase = selectedTargetDatabase;
-            PopulateTreeView();
+            //PopulateTreeView();
         }
 
-        private void PopulateTreeView()
-        {
-            sourceTreeView.Nodes.Clear();
-            targetTreeView.Nodes.Clear();
 
-            TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
-            TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
+        /*  private void PopulateTreeView()
+          {
+              sourceTreeView.Nodes.Clear();
+              targetTreeView.Nodes.Clear();
 
-            sourceNode.Nodes.AddRange(GetTablesForDatabase(selectedSourceDatabase, "Source").ToArray());
-            targetNode.Nodes.AddRange(GetTablesForDatabase(selectedTargetDatabase, "Target").ToArray());
+              TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
+              TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
 
-            sourceTreeView.Nodes.Add(sourceNode);
-            targetTreeView.Nodes.Add(targetNode);
+              sourceNode.Nodes.AddRange(GetTablesForDatabase(selectedSourceDatabase, "Source").ToArray());
+              targetNode.Nodes.AddRange(GetTablesForDatabase(selectedTargetDatabase, "Target").ToArray());
 
-            sourceNode.Expand();
-            targetNode.Expand();
-        }
+              sourceTreeView.Nodes.Add(sourceNode);
+              targetTreeView.Nodes.Add(targetNode);
 
-        private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix)
-        {
-            List<TreeNode> tableNodes = new List<TreeNode>();
+              sourceNode.Expand();
+              targetNode.Expand();
+          }
 
-            // Build a connection string for the selected database
-            string connectionString = $"Data Source={selectedSourceDatabase};Initial Catalog={databaseName};Integrated Security=True";
+          private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix)
+          {
+              List<TreeNode> tableNodes = new List<TreeNode>();
 
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    sqlConnection.Open();
-                    SqlCommand command = new SqlCommand("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'", sqlConnection);
-                    SqlDataReader reader = command.ExecuteReader();
+              // Build a connection string for the selected database
+              string connectionString = $"Data Source={selectedSourceDatabase};Initial Catalog={databaseName};Integrated Security=True";
 
-                    while (reader.Read())
-                    {
-                        string tableName = reader["TABLE_NAME"].ToString();
-                        tableNodes.Add(new TreeNode(prefix + " Table: " + tableName));
-                    }
+              using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+              {
+                  try
+                  {
+                      sqlConnection.Open();
+                      SqlCommand command = new SqlCommand("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'", sqlConnection);
+                      SqlDataReader reader = command.ExecuteReader();
 
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}");
-                }
-            }
+                      while (reader.Read())
+                      {
+                          string tableName = reader["TABLE_NAME"].ToString();
+                          tableNodes.Add(new TreeNode(prefix + " Table: " + tableName));
+                      }
 
-            return tableNodes;
-        }
+                      reader.Close();
+                  }
+                  catch (Exception ex)
+                  {
+                      MessageBox.Show($"Error: {ex.Message}");
+                  }
+              }
+
+              return tableNodes;
+          }
+        */
 
     }
 }
