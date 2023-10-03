@@ -151,6 +151,19 @@ namespace NavicatClone
             }
         }
 
+ 
+
+
+        private string GetSelectedSourceDatabase()
+        {
+            return sourceDatabaseComboBox.SelectedItem as string;
+        }
+
+        private string GetSelectedTargetDatabase()
+        {
+            return targetDatabaseComboBox.SelectedItem as string;
+        }
+
         private void Compaire_btn_Click(object sender, EventArgs e)
         {
             string selectedSourceDatabase = GetSelectedSourceDatabase();
@@ -168,14 +181,5 @@ namespace NavicatClone
             }
         }
 
-        private string GetSelectedSourceDatabase()
-        {
-            return sourceDatabaseComboBox.SelectedItem as string;
-        }
-
-        private string GetSelectedTargetDatabase()
-        {
-            return targetDatabaseComboBox.SelectedItem as string;
-        }
     }
 }
