@@ -165,10 +165,11 @@ namespace NavicatClone
                 return;
             }
 
-            using (CompaireForm compaireForm = new CompaireForm(selectedSourceDatabase, selectedTargetDatabase, connections))
+            using (CompaireForm compaireForm = new CompaireForm(selectedSourceDatabase, selectedTargetDatabase))
             {
                 compaireForm.ShowDialog();
             }
         }
+
     }
 }
