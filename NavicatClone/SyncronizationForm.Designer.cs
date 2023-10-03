@@ -69,6 +69,14 @@
             HostLabel = new Label();
             label26 = new Label();
             label27 = new Label();
+            label28 = new Label();
+            label29 = new Label();
+            label30 = new Label();
+            label31 = new Label();
+            label32 = new Label();
+            label33 = new Label();
+            label34 = new Label();
+            label35 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -442,12 +450,92 @@
             label27.TabIndex = 36;
             label27.Text = "--";
             // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(186, 407);
+            label28.Name = "label28";
+            label28.Size = new Size(21, 20);
+            label28.TabIndex = 37;
+            label28.Text = "--";
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(179, 374);
+            label29.Name = "label29";
+            label29.Size = new Size(21, 20);
+            label29.TabIndex = 38;
+            label29.Text = "--";
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(122, 550);
+            label30.Name = "label30";
+            label30.Size = new Size(21, 20);
+            label30.TabIndex = 39;
+            label30.Text = "--";
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(188, 585);
+            label31.Name = "label31";
+            label31.Size = new Size(21, 20);
+            label31.TabIndex = 40;
+            label31.Text = "--";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(803, 374);
+            label32.Name = "label32";
+            label32.Size = new Size(21, 20);
+            label32.TabIndex = 41;
+            label32.Text = "--";
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new Point(810, 407);
+            label33.Name = "label33";
+            label33.Size = new Size(21, 20);
+            label33.TabIndex = 42;
+            label33.Text = "--";
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Location = new Point(746, 550);
+            label34.Name = "label34";
+            label34.Size = new Size(21, 20);
+            label34.TabIndex = 43;
+            label34.Text = "--";
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(813, 585);
+            label35.Name = "label35";
+            label35.Size = new Size(21, 20);
+            label35.TabIndex = 44;
+            label35.Text = "--";
+            // 
             // SyncronizationForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1182, 686);
+            Controls.Add(label35);
+            Controls.Add(label34);
+            Controls.Add(label33);
+            Controls.Add(label32);
+            Controls.Add(label31);
+            Controls.Add(label30);
+            Controls.Add(label29);
+            Controls.Add(label28);
             Controls.Add(label27);
             Controls.Add(label26);
             Controls.Add(HostLabel);
@@ -538,5 +626,13 @@
         private Label HostLabel;
         private Label label26;
         private Label label27;
+        private Label label28;
+        private Label label29;
+        private Label label30;
+        private Label label31;
+        private Label label32;
+        private Label label33;
+        private Label label34;
+        private Label label35;
     }
 }
