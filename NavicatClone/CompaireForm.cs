@@ -16,66 +16,59 @@ namespace NavicatClone
             InitializeComponent();
             this.selectedSourceDatabase = selectedSourceDatabase;
             this.selectedTargetDatabase = selectedTargetDatabase;
-            this.connections = connections;
             PopulateTreeView();
         }
 
-        private void PopulateTreeView()
+        /*  private void PopulateTreeView()
+          {
+              sourceTreeView.Nodes.Clear();
+              targetTreeView.Nodes.Clear();
+
+            TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
+            TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
+
+            sourceNode.Nodes.AddRange(GetTablesForDatabase(selectedSourceDatabase, "Source").ToArray());
+            targetNode.Nodes.AddRange(GetTablesForDatabase(selectedTargetDatabase, "Target").ToArray());
+
+            sourceTreeView.Nodes.Add(sourceNode);
+            targetTreeView.Nodes.Add(targetNode);
+
+            sourceNode.Expand();
+            targetNode.Expand();
+        }
+
+        private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix)
         {
-            sourceTreeView.Nodes.Clear();
-            targetTreeView.Nodes.Clear();
+            List<TreeNode> tableNodes = new List<TreeNode>();
 
-            if (string.IsNullOrEmpty(selectedSourceDatabase))
-            {
-                MessageBox.Show("Please select a source database.");
-                return;
-            }
+            // Build a connection string for the selected database
+            string connectionString = $"Data Source={selectedSourceDatabase};Initial Catalog={databaseName};Integrated Security=True";
 
-            string selectedConnectionName = selectedSourceDatabase; // Replace with your actual logic for getting the selected connection name
-
-            ConnectionDetails selectedConnection = connections.Find(c => c.ConnectionName == selectedConnectionName);
-
-            if (selectedConnection == null)
-            {
-                MessageBox.Show("Selected connection details not found.");
-                return;
-            }
-
-            string connectionString = "";
-
-            if (selectedConnection.AuthenticationType == "Windows Authentication")
-            {
-                connectionString = $"Data Source={selectedConnection.Host};Initial Catalog={selectedSourceDatabase};Integrated Security=True";
-            }
-            else
-            {
-                connectionString = $"Data Source={selectedConnection.Host};Initial Catalog={selectedSourceDatabase};User ID={selectedConnection.Username};Password={selectedConnection.Password}";
-            }
-
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    sqlConnection.Open();
-                    SqlCommand command = new SqlCommand("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'", sqlConnection);
-                    SqlDataReader reader = command.ExecuteReader();
+              using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+              {
+                  try
+                  {
+                      sqlConnection.Open();
+                      SqlCommand command = new SqlCommand("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'", sqlConnection);
+                      SqlDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())
                     {
                         string tableName = reader["TABLE_NAME"].ToString();
-                        sourceTreeView.Nodes.Add(new TreeNode("Source Table: " + tableName));
+                        tableNodes.Add(new TreeNode(prefix + " Table: " + tableName));
                     }
 
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error: {ex.Message}");
-                }
-            }
+                      reader.Close();
+                  }
+                  catch (Exception ex)
+                  {
+                      MessageBox.Show($"Error: {ex.Message}");
+                  }
+              }
 
-            
+            return tableNodes;
         }
+
 
     }
 }
