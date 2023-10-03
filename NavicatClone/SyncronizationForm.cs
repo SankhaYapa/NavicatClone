@@ -141,6 +141,19 @@ namespace NavicatClone
             }
         }
 
+ 
+
+
+        private string GetSelectedSourceDatabase()
+        {
+            return sourceDatabaseComboBox.SelectedItem as string;
+        }
+
+        private string GetSelectedTargetDatabase()
+        {
+            return targetDatabaseComboBox.SelectedItem as string;
+        }
+
         private void Compaire_btn_Click(object sender, EventArgs e)
         {
             string selectedSourceDatabase = GetSelectedSourceDatabase();
@@ -152,20 +165,10 @@ namespace NavicatClone
                 return;
             }
 
-            using (CompaireForm compaireForm = new CompaireForm(selectedSourceDatabase, selectedTargetDatabase))
+            using (CompaireForm compaireForm = new CompaireForm(selectedSourceDatabase, selectedTargetDatabase, connections))
             {
                 compaireForm.ShowDialog();
             }
-        }
-
-        private string GetSelectedSourceDatabase()
-        {
-            return sourceDatabaseComboBox.SelectedItem as string;
-        }
-
-        private string GetSelectedTargetDatabase()
-        {
-            return targetDatabaseComboBox.SelectedItem as string;
         }
     }
 }

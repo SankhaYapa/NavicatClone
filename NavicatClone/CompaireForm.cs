@@ -9,12 +9,14 @@ namespace NavicatClone
     {
         private string selectedSourceDatabase;
         private string selectedTargetDatabase;
+        private List<ConnectionDetails> connections;
 
-        public CompaireForm(string selectedSourceDatabase, string selectedTargetDatabase)
+        public CompaireForm(string selectedSourceDatabase, string selectedTargetDatabase, List<ConnectionDetails> connections)
         {
             InitializeComponent();
             this.selectedSourceDatabase = selectedSourceDatabase;
             this.selectedTargetDatabase = selectedTargetDatabase;
+            this.connections = connections;
             PopulateTreeView();
         }
 
@@ -23,25 +25,32 @@ namespace NavicatClone
             sourceTreeView.Nodes.Clear();
             targetTreeView.Nodes.Clear();
 
-            TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
-            TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
+            if (string.IsNullOrEmpty(selectedSourceDatabase))
+            {
+                MessageBox.Show("Please select a source database.");
+                return;
+            }
 
-            sourceNode.Nodes.AddRange(GetTablesForDatabase(selectedSourceDatabase, "Source").ToArray());
-            targetNode.Nodes.AddRange(GetTablesForDatabase(selectedTargetDatabase, "Target").ToArray());
+            string selectedConnectionName = selectedSourceDatabase; // Replace with your actual logic for getting the selected connection name
 
-            sourceTreeView.Nodes.Add(sourceNode);
-            targetTreeView.Nodes.Add(targetNode);
+            ConnectionDetails selectedConnection = connections.Find(c => c.ConnectionName == selectedConnectionName);
 
-            sourceNode.Expand();
-            targetNode.Expand();
-        }
+            if (selectedConnection == null)
+            {
+                MessageBox.Show("Selected connection details not found.");
+                return;
+            }
 
-        private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix)
-        {
-            List<TreeNode> tableNodes = new List<TreeNode>();
+            string connectionString = "";
 
-            // Build a connection string for the selected database
-            string connectionString = $"Data Source={selectedSourceDatabase};Initial Catalog={databaseName};Integrated Security=True";
+            if (selectedConnection.AuthenticationType == "Windows Authentication")
+            {
+                connectionString = $"Data Source={selectedConnection.Host};Initial Catalog={selectedSourceDatabase};Integrated Security=True";
+            }
+            else
+            {
+                connectionString = $"Data Source={selectedConnection.Host};Initial Catalog={selectedSourceDatabase};User ID={selectedConnection.Username};Password={selectedConnection.Password}";
+            }
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
@@ -54,7 +63,7 @@ namespace NavicatClone
                     while (reader.Read())
                     {
                         string tableName = reader["TABLE_NAME"].ToString();
-                        tableNodes.Add(new TreeNode(prefix + " Table: " + tableName));
+                        sourceTreeView.Nodes.Add(new TreeNode("Source Table: " + tableName));
                     }
 
                     reader.Close();
@@ -65,8 +74,9 @@ namespace NavicatClone
                 }
             }
 
-            return tableNodes;
+            
         }
 
+       
     }
 }

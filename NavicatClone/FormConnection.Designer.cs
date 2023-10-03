@@ -190,7 +190,7 @@
             Name = "FormConnection";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormConnection";
-            Load += FormConnection_Load;
+      
             ResumeLayout(false);
             PerformLayout();
         }
