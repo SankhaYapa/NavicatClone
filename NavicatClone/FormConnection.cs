@@ -22,27 +22,22 @@ namespace NavicatClone
 
         public FormConnection()
         {
-
-
             InitializeComponent();
             AuthenticationComboBox.Items.Add("Windows Authentication");
             AuthenticationComboBox.Items.Add("SQL Authentication");
             AuthenticationComboBox.SelectedIndex = 0;
         }
 
-        private void FormConnection_Load(object sender, EventArgs e)
-        {
 
-        }
 
         private void connect_ok_Click(object sender, EventArgs e)
         {
             ConnectionName = ConnectionNameTextBox.Text;
             Host = HostTextBox.Text;
+            // InitialDatabase = InitialDatabaseTextBox.Text;
             AuthenticationType = AuthenticationComboBox.SelectedItem.ToString();
-            InitialDatabase = InitialDatabaseTextBox.Text;
-            Username = UsernameTextBox.Text;
-            Password = PasswordTextBox.Text;
+            // Username = UsernameTextBox.Text;
+            // Password = PasswordTextBox.Text;
 
             this.DialogResult = DialogResult.OK;
         }

@@ -46,11 +46,11 @@
             treeView2 = new TreeView();
             label8 = new Label();
             panel4 = new Panel();
+            textBox2 = new TextBox();
+            textBox1 = new TextBox();
+            label11 = new Label();
             label10 = new Label();
             label9 = new Label();
-            label11 = new Label();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -191,6 +191,7 @@
             treeView1.Name = "treeView1";
             treeView1.Size = new Size(525, 304);
             treeView1.TabIndex = 3;
+            treeView1.NodeMouseClick += treeView1_NodeMouseClick;
             // 
             // treeView2
             // 
@@ -221,6 +222,33 @@
             panel4.Size = new Size(1182, 235);
             panel4.TabIndex = 6;
             // 
+            // textBox2
+            // 
+            textBox2.BorderStyle = BorderStyle.FixedSingle;
+            textBox2.Location = new Point(674, 56);
+            textBox2.Multiline = true;
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(505, 151);
+            textBox2.TabIndex = 4;
+            // 
+            // textBox1
+            // 
+            textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.Location = new Point(16, 56);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(509, 151);
+            textBox1.TabIndex = 3;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(684, 33);
+            label11.Name = "label11";
+            label11.Size = new Size(52, 20);
+            label11.TabIndex = 2;
+            label11.Text = "Table2";
+            // 
             // label10
             // 
             label10.AutoSize = true;
@@ -238,33 +266,6 @@
             label9.Size = new Size(122, 20);
             label9.TabIndex = 0;
             label9.Text = "DDL Comparison";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(684, 33);
-            label11.Name = "label11";
-            label11.Size = new Size(52, 20);
-            label11.TabIndex = 2;
-            label11.Text = "Table2";
-            // 
-            // textBox1
-            // 
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Location = new Point(16, 56);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(509, 151);
-            textBox1.TabIndex = 3;
-            // 
-            // textBox2
-            // 
-            textBox2.BorderStyle = BorderStyle.FixedSingle;
-            textBox2.Location = new Point(674, 56);
-            textBox2.Multiline = true;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(505, 151);
-            textBox2.TabIndex = 4;
             // 
             // CompaireForm
             // 
