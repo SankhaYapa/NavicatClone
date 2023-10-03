@@ -39,7 +39,7 @@ namespace NavicatClone
             List<TreeNode> tableNodes = new List<TreeNode>();
 
             // Build a connection string for the selected database
-            string connectionString = $"Data Source=DESKTOP-UKUD1D5;Initial Catalog={databaseName};Integrated Security=True";
+            string connectionString = $"Data Source=MSI\\HASIN;Initial Catalog={databaseName};Integrated Security=True";
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
