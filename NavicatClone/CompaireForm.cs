@@ -67,7 +67,7 @@ namespace NavicatClone
             return tableNodes;
         }
 
-      
+
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {

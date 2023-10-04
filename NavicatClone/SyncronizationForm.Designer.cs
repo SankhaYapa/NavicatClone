@@ -410,7 +410,7 @@
             Compaire_btn.Name = "Compaire_btn";
             Compaire_btn.Size = new Size(94, 29);
             Compaire_btn.TabIndex = 32;
-            Compaire_btn.Text = "Compair";
+            Compaire_btn.Text = "Compare";
             Compaire_btn.UseVisualStyleBackColor = true;
             Compaire_btn.Click += Compaire_btn_Click;
             // 

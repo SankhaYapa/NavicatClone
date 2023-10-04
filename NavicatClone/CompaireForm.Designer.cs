@@ -282,7 +282,7 @@
             Controls.Add(panel3);
             Name = "CompaireForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "CompairForm";
+            Text = "CompareForm";
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
