@@ -34,12 +34,42 @@ namespace NavicatClone
         {
             ConnectionName = ConnectionNameTextBox.Text;
             Host = HostTextBox.Text;
-             InitialDatabase = InitialDatabaseTextBox.Text;
+            InitialDatabase = InitialDatabaseTextBox.Text;
             AuthenticationType = AuthenticationComboBox.SelectedItem.ToString();
-             Username = UsernameTextBox.Text;
-             Password = PasswordTextBox.Text;
+            Username = UsernameTextBox.Text;
+            Password = PasswordTextBox.Text;
 
             this.DialogResult = DialogResult.OK;
+        }
+
+        private void cancel_btn_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
+        private void AuthenticationComboBox_SelectedIndexChange(object sender, EventArgs e)
+        {
+            string selectedAuthentication = AuthenticationComboBox.SelectedItem.ToString();
+
+            if (selectedAuthentication == "Windows Authentication")
+            {
+                label8.Visible = false;
+                label5.Visible = false;
+                label6.Visible = false;
+                InitialDatabaseTextBox.Visible = false;
+                UsernameTextBox.Visible = false;
+                PasswordTextBox.Visible = false;
+            }
+            else
+            {
+                label8.Visible = true;
+                label5.Visible = true;
+                label6.Visible = true;
+                InitialDatabaseTextBox.Visible = true;
+                UsernameTextBox.Visible = true;
+                PasswordTextBox.Visible = true;
+            }
         }
     }
 }

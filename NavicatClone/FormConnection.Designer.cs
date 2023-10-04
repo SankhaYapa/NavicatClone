@@ -45,7 +45,6 @@
             AuthenticationComboBox = new ComboBox();
             label7 = new Label();
             label8 = new Label();
-            textBox1 = new TextBox();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
@@ -81,7 +80,7 @@
             // 
             // InitialDatabaseTextBox
             // 
-            InitialDatabaseTextBox.Location = new Point(134, 281);
+            InitialDatabaseTextBox.Location = new Point(146, 274);
             InitialDatabaseTextBox.Name = "InitialDatabaseTextBox";
             InitialDatabaseTextBox.Size = new Size(284, 27);
             InitialDatabaseTextBox.TabIndex = 5;
@@ -107,7 +106,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(22, 183);
+            label4.Location = new Point(3, 187);
             label4.Name = "label4";
             label4.Size = new Size(40, 20);
             label4.TabIndex = 6;
@@ -115,7 +114,7 @@
             // 
             // UsernameTextBox
             // 
-            UsernameTextBox.Location = new Point(134, 320);
+            UsernameTextBox.Location = new Point(146, 316);
             UsernameTextBox.Name = "UsernameTextBox";
             UsernameTextBox.Size = new Size(284, 27);
             UsernameTextBox.TabIndex = 9;
@@ -124,7 +123,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(12, 327);
+            label5.Location = new Point(3, 323);
             label5.Name = "label5";
             label5.Size = new Size(75, 20);
             label5.TabIndex = 8;
@@ -133,7 +132,7 @@
             // 
             // PasswordTextBox
             // 
-            PasswordTextBox.Location = new Point(134, 369);
+            PasswordTextBox.Location = new Point(146, 373);
             PasswordTextBox.Name = "PasswordTextBox";
             PasswordTextBox.Size = new Size(284, 27);
             PasswordTextBox.TabIndex = 11;
@@ -142,7 +141,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(12, 376);
+            label6.Location = new Point(3, 376);
             label6.Name = "label6";
             label6.Size = new Size(70, 20);
             label6.TabIndex = 10;
@@ -177,7 +176,7 @@
             AuthenticationComboBox.Name = "AuthenticationComboBox";
             AuthenticationComboBox.Size = new Size(284, 28);
             AuthenticationComboBox.TabIndex = 14;
-            AuthenticationComboBox.SelectedIndexChanged += AuthenticationComboBox_SelectedIndexChanged;
+            AuthenticationComboBox.SelectedIndexChanged += AuthenticationComboBox_SelectedIndexChange;
             // 
             // label7
             // 
@@ -196,14 +195,6 @@
             label8.TabIndex = 4;
             label8.Text = "InitialDatabase";
             label8.Visible = false;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(134, 282);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(284, 27);
-            textBox1.TabIndex = 5;
-            textBox1.Visible = false;
             // 
             // pictureBox1
             // 
@@ -250,7 +241,6 @@
             Controls.Add(label5);
             Controls.Add(HostTextBox);
             Controls.Add(label4);
-            Controls.Add(textBox1);
             Controls.Add(label8);
             Controls.Add(InitialDatabaseTextBox);
             Controls.Add(label7);
@@ -261,7 +251,9 @@
             Name = "FormConnection";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormConnection";
-      
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -284,7 +276,6 @@
         private ComboBox AuthenticationComboBox;
         private Label label7;
         private Label label8;
-        private TextBox textBox1;
         private PictureBox pictureBox1;
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
