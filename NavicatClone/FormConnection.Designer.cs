@@ -167,6 +167,7 @@
             cancel_btn.TabIndex = 13;
             cancel_btn.Text = "Cancel";
             cancel_btn.UseVisualStyleBackColor = true;
+            cancel_btn.Click += cancel_btn_Click;
             // 
             // AuthenticationComboBox
             // 
@@ -260,10 +261,7 @@
             Name = "FormConnection";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormConnection";
-          
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+      
             ResumeLayout(false);
             PerformLayout();
         }
