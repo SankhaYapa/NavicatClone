@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -8,14 +9,19 @@ namespace NavicatClone
     {
         private string selectedSourceDatabase;
         private string selectedTargetDatabase;
+        private string sourceHost;
+        private string targetHost;
 
-        public CompaireForm(string selectedSourceDatabase, string selectedTargetDatabase)
+        public CompaireForm(string selectedSourceDatabase, string selectedTargetDatabase, string sourceHost, string targetHost)
         {
             InitializeComponent();
             this.selectedSourceDatabase = selectedSourceDatabase;
             this.selectedTargetDatabase = selectedTargetDatabase;
+            this.sourceHost = sourceHost;
+            this.targetHost = targetHost;
             PopulateTreeView();
         }
+
         private void PopulateTreeView()
         {
             treeView1.Nodes.Clear();
@@ -37,18 +43,14 @@ namespace NavicatClone
             sourceNode.Expand();
             targetNode.Expand();
         }
-        /*
-        16835354
-        0212
-        1100
-        */
 
         private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix)
         {
             List<TreeNode> tableNodes = new List<TreeNode>();
 
-            // Build a connection string for the selected database
-            string connectionString = $"Data Source=DESKTOP-PAKMRAE\\SQLEXPRESS;Initial Catalog={databaseName};Integrated Security=True";
+            // Replace the host name in the connection string with "DESKTOP-UKUD1D5"
+            string connectionString = $"Data Source={sourceHost};Initial Catalog={databaseName};Integrated Security=True;MultipleActiveResultSets=True";
+            // Replace 'username' and 'password' with actual values if needed
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
@@ -56,18 +58,24 @@ namespace NavicatClone
                 {
                     sqlConnection.Open();
                     SqlCommand command = new SqlCommand("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'", sqlConnection);
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    while (reader.Read())
+                    using (SqlDataReader reader = command.ExecuteReader()) // Use 'using' here
                     {
-                        string tableName = reader["TABLE_NAME"].ToString();
-                        tableNodes.Add(new TreeNode(prefix + " Table: " + tableName));
+                        while (reader.Read())
+                        {
+                            string tableName = reader["TABLE_NAME"].ToString();
+                            TreeNode tableNode = new TreeNode(prefix + " Table: " + tableName);
+                            tableNode.Tag = new CheckBox { Text = tableName }; // Add CheckBox to the tableNode
 
-                        // Assign the name of the first table to label1
+                            // Retrieve column names for the table
+                            List<string> columnNames = GetColumnNamesForTable(sqlConnection, tableName);
+                            foreach (string columnName in columnNames)
+                            {
+                                tableNode.Nodes.Add(new TreeNode("Column: " + columnName));
+                            }
 
+                            tableNodes.Add(tableNode);
+                        }
                     }
-
-                    reader.Close();
                 }
                 catch (Exception ex)
                 {
@@ -78,65 +86,60 @@ namespace NavicatClone
             return tableNodes;
         }
 
-
-
-
-
-        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private List<string> GetColumnNamesForTable(SqlConnection connection, string tableName)
         {
-            if (e.Node.Parent != null) // Check if it's a child node representing a table
+            List<string> columnNames = new List<string>();
+
+            try
             {
-                string tableName = e.Node.Text.Split(':')[1].Trim();
-
-                // Build a connection string for the selected source database
-                string connectionString = $"Data Source=DESKTOP-PAKMRAE\\SQLEXPRESS;Initial Catalog={selectedSourceDatabase};Integrated Security=True";
-
-                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", connection);
+                using (SqlDataReader reader = command.ExecuteReader()) // Use 'using' here
                 {
-                    try
+                    while (reader.Read())
                     {
-                        sqlConnection.Open();
-                        SqlCommand command = new SqlCommand($"SELECT OBJECT_DEFINITION(OBJECT_ID(N'{tableName}'))", sqlConnection);
-                        string creationQuery = command.ExecuteScalar()?.ToString();
-
-                        // Display the creation query in textBox1
-                        textBox1.Text = creationQuery;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error: {ex.Message}");
+                        string columnName = reader["COLUMN_NAME"].ToString();
+                        columnNames.Add(columnName);
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+            return columnNames;
         }
 
-        // Similarly, you can handle treeView2_NodeMouseClick for the target database.
-        private void treeView2_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void LoadTableSqlQuery(TreeNode tableNode)
         {
-            if (e.Node.Parent != null) // Check if it's a child node representing a table
+            // Check if the selected node has a CheckBox control (assuming it's a table node)
+            if (tableNode.Tag is CheckBox checkBox)
             {
-                string tableName = e.Node.Text.Split(':')[1].Trim();
+                // Get the table name from the CheckBox text
+                string tableName = checkBox.Text;
+                MessageBox.Show($"Checked: {tableName}");
+                // Construct the SQL query to retrieve table structure
+                string sqlQuery = $"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
 
-                // Build a connection string for the selected target database
-                string connectionString = $"Data Source=DESKTOP-PAKMRAE\\SQLEXPRESS;Initial Catalog={selectedTargetDatabase};Integrated Security=True";
-
-                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-                {
-                    try
-                    {
-                        sqlConnection.Open();
-                        SqlCommand command = new SqlCommand($"SELECT OBJECT_DEFINITION(OBJECT_ID(N'{tableName}'))", sqlConnection);
-                        string creationQuery = command.ExecuteScalar()?.ToString();
-
-                        // Display the creation query in textBox2
-                        textBox2.Text = creationQuery;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error: {ex.Message}");
-                    }
-                }
+                // Display the SQL query in the TextBox (change textboxName to the actual name of your TextBox)
+                textBox1.Text = sqlQuery;
             }
         }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // Handle the AfterSelect event for treeView1 (assuming this is the treeView for source database)
+            TreeNode selectedNode = e.Node;
+            LoadTableSqlQuery(selectedNode);
+        }
+
+        private void treeView2_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // Handle the AfterSelect event for treeView2 (assuming this is the treeView for target database)
+            TreeNode selectedNode = e.Node;
+            LoadTableSqlQuery(selectedNode);
+        }
+
+        // The rest of your code remains the same.
     }
 }

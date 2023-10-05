@@ -188,11 +188,12 @@
             // 
             // treeView1
             // 
+            treeView1.CheckBoxes = true;
             treeView1.Location = new Point(0, 144);
             treeView1.Name = "treeView1";
             treeView1.Size = new Size(525, 304);
             treeView1.TabIndex = 3;
-            treeView1.NodeMouseClick += treeView1_NodeMouseClick;
+            treeView1.AfterSelect += treeView1_AfterSelect;
             // 
             // treeView2
             // 
@@ -200,6 +201,7 @@
             treeView2.Name = "treeView2";
             treeView2.Size = new Size(505, 305);
             treeView2.TabIndex = 4;
+            treeView2.AfterSelect += treeView2_AfterSelect;
             // 
             // panel4
             // 
