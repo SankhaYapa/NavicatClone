@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             ConnectButton = new Button();
             panel1 = new Panel();
+            button1 = new Button();
             panel2 = new Panel();
             treeView1 = new TreeView();
-            button1 = new Button();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -62,6 +63,20 @@
             panel1.Size = new Size(1279, 82);
             panel1.TabIndex = 1;
             // 
+            // button1
+            // 
+            button1.Image = (Image)resources.GetObject("button1.Image");
+            button1.ImageAlign = ContentAlignment.TopCenter;
+            button1.Location = new Point(158, 12);
+            button1.Name = "button1";
+            button1.Padding = new Padding(0, 5, 0, 5);
+            button1.Size = new Size(214, 61);
+            button1.TabIndex = 1;
+            button1.Text = "Structure Synchronization";
+            button1.TextAlign = ContentAlignment.BottomCenter;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // panel2
             // 
             panel2.Controls.Add(treeView1);
@@ -78,20 +93,6 @@
             treeView1.Name = "treeView1";
             treeView1.Size = new Size(250, 667);
             treeView1.TabIndex = 0;
-            // 
-            // button1
-            // 
-            button1.Image = Properties.Resources.link__3_;
-            button1.ImageAlign = ContentAlignment.TopCenter;
-            button1.Location = new Point(158, 12);
-            button1.Name = "button1";
-            button1.Padding = new Padding(0, 5, 0, 5);
-            button1.Size = new Size(214, 61);
-            button1.TabIndex = 1;
-            button1.Text = "Structure Synchronization";
-            button1.TextAlign = ContentAlignment.BottomCenter;
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // Form1
             // 

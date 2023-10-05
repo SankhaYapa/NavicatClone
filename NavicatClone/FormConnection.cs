@@ -32,15 +32,52 @@ namespace NavicatClone
 
         private void connect_ok_Click(object sender, EventArgs e)
         {
-            ConnectionName = ConnectionNameTextBox.Text;
-            Host = HostTextBox.Text;
-            InitialDatabase = InitialDatabaseTextBox.Text;
-            AuthenticationType = AuthenticationComboBox.SelectedItem.ToString();
-            Username = UsernameTextBox.Text;
-            Password = PasswordTextBox.Text;
+            if(AuthenticationComboBox.SelectedItem.ToString() == "Windows Authentication")
+            {
+                if (string.IsNullOrEmpty(ConnectionNameTextBox.Text) ||
+                string.IsNullOrEmpty(HostTextBox.Text))
+                {
+                    MessageBox.Show("Please fill in all required fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return; // Don't proceed if any field is empty
+                }
+                // If all required fields are filled, proceed with the connection setup
+                ConnectionName = ConnectionNameTextBox.Text;
+                Host = HostTextBox.Text;
+                AuthenticationType = AuthenticationComboBox.SelectedItem.ToString();
 
-            this.DialogResult = DialogResult.OK;
+                this.DialogResult = DialogResult.OK;
+            }
+            else
+            {
+                if (AuthenticationComboBox.SelectedItem.ToString() == "SQL Authentication")
+                {
+                    // Check if any of the required fields are empty
+                    if (string.IsNullOrEmpty(ConnectionNameTextBox.Text) ||
+                        string.IsNullOrEmpty(HostTextBox.Text) ||
+                        string.IsNullOrEmpty(InitialDatabaseTextBox.Text) ||
+                        string.IsNullOrEmpty(UsernameTextBox.Text) ||
+                        string.IsNullOrEmpty(PasswordTextBox.Text))
+                    {
+                        MessageBox.Show("Please fill in all required fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return; // Don't proceed if any field is empty
+                    }
+
+                    // If all required fields are filled, proceed with the connection setup
+                    ConnectionName = ConnectionNameTextBox.Text;
+                    Host = HostTextBox.Text;
+                    InitialDatabase = InitialDatabaseTextBox.Text;
+                    AuthenticationType = AuthenticationComboBox.SelectedItem.ToString();
+                    Username = UsernameTextBox.Text;
+                    Password = PasswordTextBox.Text;
+
+                    this.DialogResult = DialogResult.OK;
+                }
+            }
+          
+
+
         }
+
 
         private void cancel_btn_Click(object sender, EventArgs e)
         {

@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CompaireForm));
             panel3 = new Panel();
+            label12 = new Label();
             label4 = new Label();
-            label3 = new Label();
             label2 = new Label();
             label1 = new Label();
             pictureBox3 = new PictureBox();
@@ -44,13 +44,13 @@
             label5 = new Label();
             treeView1 = new TreeView();
             treeView2 = new TreeView();
-            label8 = new Label();
             panel4 = new Panel();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
             label11 = new Label();
             label10 = new Label();
             label9 = new Label();
+            label8 = new Label();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -61,8 +61,8 @@
             // 
             // panel3
             // 
+            panel3.Controls.Add(label12);
             panel3.Controls.Add(label4);
-            panel3.Controls.Add(label3);
             panel3.Controls.Add(label2);
             panel3.Controls.Add(label1);
             panel3.Controls.Add(pictureBox3);
@@ -74,23 +74,24 @@
             panel3.Size = new Size(1182, 100);
             panel3.TabIndex = 0;
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(489, 65);
+            label12.Name = "label12";
+            label12.RightToLeft = RightToLeft.Yes;
+            label12.Size = new Size(21, 20);
+            label12.TabIndex = 7;
+            label12.Text = "--";
+            // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Location = new Point(727, 65);
             label4.Name = "label4";
-            label4.Size = new Size(71, 20);
+            label4.Size = new Size(21, 20);
             label4.TabIndex = 6;
-            label4.Text = "test2.dbo";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(465, 65);
-            label3.Name = "label3";
-            label3.Size = new Size(71, 20);
-            label3.TabIndex = 5;
-            label3.Text = "test1.dbo";
+            label4.Text = "--";
             // 
             // label2
             // 
@@ -200,16 +201,6 @@
             treeView2.Size = new Size(505, 305);
             treeView2.TabIndex = 4;
             // 
-            // label8
-            // 
-            label8.BorderStyle = BorderStyle.FixedSingle;
-            label8.Location = new Point(531, 147);
-            label8.Name = "label8";
-            label8.Size = new Size(137, 304);
-            label8.TabIndex = 5;
-            label8.Text = "=";
-            label8.TextAlign = ContentAlignment.MiddleCenter;
-            // 
             // panel4
             // 
             panel4.Controls.Add(textBox2);
@@ -267,14 +258,23 @@
             label9.TabIndex = 0;
             label9.Text = "DDL Comparison";
             // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(587, 292);
+            label8.Name = "label8";
+            label8.Size = new Size(19, 20);
+            label8.TabIndex = 7;
+            label8.Text = "=";
+            // 
             // CompaireForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1182, 686);
-            Controls.Add(panel4);
             Controls.Add(label8);
+            Controls.Add(panel4);
             Controls.Add(treeView2);
             Controls.Add(treeView1);
             Controls.Add(panel2);
@@ -292,6 +292,7 @@
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -304,7 +305,6 @@
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
-        private Label label3;
         private Label label2;
         private Label label1;
         private Label label4;
@@ -320,5 +320,6 @@
         private Label label11;
         private TextBox textBox2;
         private TextBox textBox1;
+        private Label label12;
     }
 }

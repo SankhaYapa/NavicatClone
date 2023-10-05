@@ -16,11 +16,14 @@ namespace NavicatClone
             this.selectedTargetDatabase = selectedTargetDatabase;
             PopulateTreeView();
         }
-
         private void PopulateTreeView()
         {
             treeView1.Nodes.Clear();
             treeView2.Nodes.Clear();
+
+            // Set the connection name (database name) for label1
+            label12.Text = selectedSourceDatabase + ".dbo";
+            label4.Text = selectedTargetDatabase + ".dbo";
 
             TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
             TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
@@ -34,12 +37,18 @@ namespace NavicatClone
             sourceNode.Expand();
             targetNode.Expand();
         }
+        /*
+        16835354
+        0212
+        1100
+        */
+
         private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix)
         {
             List<TreeNode> tableNodes = new List<TreeNode>();
 
             // Build a connection string for the selected database
-            string connectionString = $"Data Source=DESKTOP-UKUD1D5;Initial Catalog={databaseName};Integrated Security=True";
+            string connectionString = $"Data Source=DESKTOP-PAKMRAE\\SQLEXPRESS;Initial Catalog={databaseName};Integrated Security=True";
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
@@ -53,6 +62,9 @@ namespace NavicatClone
                     {
                         string tableName = reader["TABLE_NAME"].ToString();
                         tableNodes.Add(new TreeNode(prefix + " Table: " + tableName));
+
+                        // Assign the name of the first table to label1
+
                     }
 
                     reader.Close();
@@ -68,6 +80,8 @@ namespace NavicatClone
 
 
 
+
+
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Node.Parent != null) // Check if it's a child node representing a table
@@ -75,7 +89,7 @@ namespace NavicatClone
                 string tableName = e.Node.Text.Split(':')[1].Trim();
 
                 // Build a connection string for the selected source database
-                string connectionString = $"Data Source=DESKTOP-UKUD1D5;Initial Catalog={selectedSourceDatabase};Integrated Security=True";
+                string connectionString = $"Data Source=DESKTOP-PAKMRAE\\SQLEXPRESS;Initial Catalog={selectedSourceDatabase};Integrated Security=True";
 
                 using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
@@ -104,7 +118,7 @@ namespace NavicatClone
                 string tableName = e.Node.Text.Split(':')[1].Trim();
 
                 // Build a connection string for the selected target database
-                string connectionString = $"Data Source=DESKTOP-UKUD1D5;Initial Catalog={selectedTargetDatabase};Integrated Security=True";
+                string connectionString = $"Data Source=DESKTOP-PAKMRAE\\SQLEXPRESS;Initial Catalog={selectedTargetDatabase};Integrated Security=True";
 
                 using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
