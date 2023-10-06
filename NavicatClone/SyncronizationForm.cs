@@ -151,9 +151,6 @@ namespace NavicatClone
             }
         }
 
-
-
-
         private string GetSelectedSourceDatabase()
         {
             return sourceDatabaseComboBox.SelectedItem as string;
@@ -168,18 +165,30 @@ namespace NavicatClone
         {
             string selectedSourceDatabase = GetSelectedSourceDatabase();
             string selectedTargetDatabase = GetSelectedTargetDatabase();
+            string selectedConnectionName1 = SelectedSourceConnection;
+            string selectedConnectionName2 = SelectedTargetConnection;
 
-            if (string.IsNullOrEmpty(selectedSourceDatabase) || string.IsNullOrEmpty(selectedTargetDatabase))
+            ConnectionDetails selectedConnection1 = connections.Find(c => c.ConnectionName == selectedConnectionName1);
+            ConnectionDetails selectedConnection2 = connections.Find(c => c.ConnectionName == selectedConnectionName2);
+
+            if (selectedConnection1 == null || selectedConnection2 == null)
             {
-                MessageBox.Show("Please select source and target databases.");
+                MessageBox.Show("Connection details not found for the selected database.");
                 return;
             }
 
-            using (CompaireForm compaireForm = new CompaireForm(selectedSourceDatabase, selectedTargetDatabase))
+            // Pass host information to the CompaireForm
+            string sourceHost = selectedConnection2.Host;
+            string targetHost = selectedConnection2.Host;
+            MessageBox.Show($"source host{sourceHost}");
+
+            // Open the CompaireForm with the selected source and target databases and host information.
+            using (CompaireForm compaireForm = new CompaireForm(selectedSourceDatabase, selectedTargetDatabase, sourceHost, targetHost))
             {
                 compaireForm.ShowDialog();
             }
         }
+
 
     }
 }
