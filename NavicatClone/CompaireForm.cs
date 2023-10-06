@@ -64,7 +64,7 @@ namespace NavicatClone
                         {
                             string tableName = reader["TABLE_NAME"].ToString();
                             TreeNode tableNode = new TreeNode(prefix + " Table: " + tableName);
-                            tableNode.Tag = new CheckBox { Text = tableName }; // Add CheckBox to the tableNode
+                            tableNode.Tag = tableName; // Store table name in the tag
 
                             // Retrieve column names for the table
                             List<string> columnNames = GetColumnNamesForTable(sqlConnection, tableName);
@@ -110,13 +110,15 @@ namespace NavicatClone
             return columnNames;
         }
 
-        private void LoadTableSqlQuery(TreeNode tableNode, TextBox textBox)
+        private Dictionary<string, string> selectedSourceTables = new Dictionary<string, string>();
+        private Dictionary<string, string> selectedTargetTables = new Dictionary<string, string>();
+
+        // Modify your LoadTableSqlQuery method to store the selected table and its SQL query
+        private void LoadTableSqlQuery(TreeNode tableNode, TextBox textBox, Dictionary<string, string> selectedTables)
         {
-            // Check if the selected node has a CheckBox control (assuming it's a table node)
-            if (tableNode.Tag is CheckBox checkBox)
+            // Check if the selected node has a table name in the tag
+            if (tableNode.Tag is string tableName)
             {
-                // Get the table name from the CheckBox text
-                string tableName = checkBox.Text;
                 // Construct the SQL query to create the table
                 string sqlQuery = $"CREATE TABLE {tableName} (\n";
 
@@ -134,6 +136,9 @@ namespace NavicatClone
 
                 // Add the closing parenthesis
                 sqlQuery += "\n);";
+
+                // Add the selected table and its SQL query to the appropriate dictionary
+                selectedTables[tableName] = sqlQuery;
 
                 // Display the SQL query in the TextBox
                 textBox.Text = sqlQuery;
@@ -173,26 +178,22 @@ namespace NavicatClone
             return columnNamesAndTypes;
         }
 
-
         private TreeNode FindMatchingTableNode(TreeNode sourceNode, TreeNodeCollection targetNodes)
         {
-            foreach (TreeNode targetNode in targetNodes)
+            if (sourceNode.Tag is string sourceTableName)
             {
-                if (targetNode.Tag is CheckBox targetCheckBox)
+                foreach (TreeNode targetNode in targetNodes)
                 {
-                    string sourceTableName = sourceNode.Text; // Use Text property of sourceNode
-                    string targetTableName = targetCheckBox.Text;
-
-                    if (sourceTableName == targetTableName)
+                    if (targetNode.Tag is string targetTableName && sourceTableName == targetTableName)
                     {
                         return targetNode;
                     }
-                }
 
-                TreeNode matchingChildNode = FindMatchingTableNode(sourceNode, targetNode.Nodes);
-                if (matchingChildNode != null)
-                {
-                    return matchingChildNode;
+                    TreeNode matchingChildNode = FindMatchingTableNode(sourceNode, targetNode.Nodes);
+                    if (matchingChildNode != null)
+                    {
+                        return matchingChildNode;
+                    }
                 }
             }
 
@@ -203,12 +204,14 @@ namespace NavicatClone
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode selectedNode = e.Node;
-            LoadTableSqlQuery(selectedNode, textBox1);
+            // For source tables
+            LoadTableSqlQuery(selectedNode, textBox1, selectedSourceTables);
 
             TreeNode matchingNode = FindMatchingTableNode(selectedNode, treeView2.Nodes);
             if (matchingNode != null)
             {
-                LoadTableSqlQuery(matchingNode, textBox2);
+                // For target tables
+                LoadTableSqlQuery(matchingNode, textBox2, selectedTargetTables);
             }
             else
             {
@@ -220,7 +223,24 @@ namespace NavicatClone
         {
             // Handle the AfterSelect event for treeView2 (assuming this is the treeView for target database)
             TreeNode selectedNode = e.Node;
-            LoadTableSqlQuery(selectedNode, textBox2);
+            // For target tables
+            LoadTableSqlQuery(selectedNode, textBox2, selectedTargetTables);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Create an instance of AlterTableCompareForm
+            using (AlterTableCompaireForm alterTableCompareForm = new AlterTableCompaireForm())
+            {
+                // Pass the selected tables dictionaries to the AlterTableCompareForm
+                alterTableCompareForm.SetSelectedSourceTables(selectedSourceTables);
+                alterTableCompareForm.SetSelectedTargetTables(selectedTargetTables);
+
+                // Show AlterTableCompareForm as a dialog
+                DialogResult result = alterTableCompareForm.ShowDialog();
+
+                // Handle the result if needed
+            }
         }
 
         // The rest of your code remains the same.

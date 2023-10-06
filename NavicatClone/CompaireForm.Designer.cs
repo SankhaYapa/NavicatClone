@@ -51,6 +51,7 @@
             label10 = new Label();
             label9 = new Label();
             label8 = new Label();
+            button1 = new Button();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -71,7 +72,7 @@
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(0, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1182, 100);
+            panel3.Size = new Size(1188, 100);
             panel3.TabIndex = 0;
             // 
             // label12
@@ -205,6 +206,7 @@
             // 
             // panel4
             // 
+            panel4.Controls.Add(button1);
             panel4.Controls.Add(textBox2);
             panel4.Controls.Add(textBox1);
             panel4.Controls.Add(label11);
@@ -212,7 +214,7 @@
             panel4.Controls.Add(label9);
             panel4.Location = new Point(0, 454);
             panel4.Name = "panel4";
-            panel4.Size = new Size(1182, 235);
+            panel4.Size = new Size(1182, 248);
             panel4.TabIndex = 6;
             // 
             // textBox2
@@ -269,12 +271,22 @@
             label8.TabIndex = 7;
             label8.Text = "=";
             // 
+            // button1
+            // 
+            button1.Location = new Point(1082, 213);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 5;
+            button1.Text = "Next";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // CompaireForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1182, 686);
+            ClientSize = new Size(1188, 739);
             Controls.Add(label8);
             Controls.Add(panel4);
             Controls.Add(treeView2);
@@ -323,5 +335,6 @@
         private TextBox textBox2;
         private TextBox textBox1;
         private Label label12;
+        private Button button1;
     }
 }
