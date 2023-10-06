@@ -110,34 +110,117 @@ namespace NavicatClone
             return columnNames;
         }
 
-        private void LoadTableSqlQuery(TreeNode tableNode)
+        private void LoadTableSqlQuery(TreeNode tableNode, TextBox textBox)
         {
             // Check if the selected node has a CheckBox control (assuming it's a table node)
             if (tableNode.Tag is CheckBox checkBox)
             {
                 // Get the table name from the CheckBox text
                 string tableName = checkBox.Text;
-                MessageBox.Show($"Checked: {tableName}");
-                // Construct the SQL query to retrieve table structure
-                string sqlQuery = $"SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'";
+                // Construct the SQL query to create the table
+                string sqlQuery = $"CREATE TABLE {tableName} (\n";
 
-                // Display the SQL query in the TextBox (change textboxName to the actual name of your TextBox)
-                textBox1.Text = sqlQuery;
+                // Retrieve column names and types for the table
+                List<string> columnNamesAndTypes = GetColumnNamesAndTypesForTable(tableName);
+
+                // Add column definitions to the SQL query
+                foreach (string column in columnNamesAndTypes)
+                {
+                    sqlQuery += $"    {column},\n";
+                }
+
+                // Remove the trailing comma and newline
+                sqlQuery = sqlQuery.TrimEnd(',', '\n');
+
+                // Add the closing parenthesis
+                sqlQuery += "\n);";
+
+                // Display the SQL query in the TextBox
+                textBox.Text = sqlQuery;
             }
         }
 
+        private List<string> GetColumnNamesAndTypesForTable(string tableName)
+        {
+            List<string> columnNamesAndTypes = new List<string>();
+
+            // Replace the host name in the connection string with "DESKTOP-UKUD1D5"
+            string connectionString = $"Data Source={sourceHost};Initial Catalog={selectedSourceDatabase};Integrated Security=True;MultipleActiveResultSets=True";
+            // Replace 'username' and 'password' with actual values if needed
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", sqlConnection);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string columnName = reader["COLUMN_NAME"].ToString();
+                            string dataType = reader["DATA_TYPE"].ToString();
+                            columnNamesAndTypes.Add($"{columnName} {dataType}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
+            }
+
+            return columnNamesAndTypes;
+        }
+
+
+        private TreeNode FindMatchingTableNode(TreeNode sourceNode, TreeNodeCollection targetNodes)
+        {
+            foreach (TreeNode targetNode in targetNodes)
+            {
+                if (targetNode.Tag is CheckBox targetCheckBox)
+                {
+                    string sourceTableName = sourceNode.Text; // Use Text property of sourceNode
+                    string targetTableName = targetCheckBox.Text;
+
+                    if (sourceTableName == targetTableName)
+                    {
+                        return targetNode;
+                    }
+                }
+
+                TreeNode matchingChildNode = FindMatchingTableNode(sourceNode, targetNode.Nodes);
+                if (matchingChildNode != null)
+                {
+                    return matchingChildNode;
+                }
+            }
+
+            return null;
+        }
+
+
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            // Handle the AfterSelect event for treeView1 (assuming this is the treeView for source database)
             TreeNode selectedNode = e.Node;
-            LoadTableSqlQuery(selectedNode);
+            LoadTableSqlQuery(selectedNode, textBox1);
+
+            TreeNode matchingNode = FindMatchingTableNode(selectedNode, treeView2.Nodes);
+            if (matchingNode != null)
+            {
+                LoadTableSqlQuery(matchingNode, textBox2);
+            }
+            else
+            {
+                textBox2.Clear();
+            }
         }
 
         private void treeView2_AfterSelect(object sender, TreeViewEventArgs e)
         {
             // Handle the AfterSelect event for treeView2 (assuming this is the treeView for target database)
             TreeNode selectedNode = e.Node;
-            LoadTableSqlQuery(selectedNode);
+            LoadTableSqlQuery(selectedNode, textBox2);
         }
 
         // The rest of your code remains the same.
