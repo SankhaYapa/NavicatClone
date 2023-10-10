@@ -7,16 +7,24 @@ namespace NavicatClone
     public partial class AlterTableCompaireForm : Form
     {
 
-        private string alterTableSql;
-        public AlterTableCompaireForm()
+		private string selectedSourceDatabase;
+		private string selectedTargetDatabase;
+		private string alterTableSql;
+        public AlterTableCompaireForm(string selectedSourceDatabase, string selectedTargetDatabase)
         {
             InitializeComponent();
-        }
+			this.selectedSourceDatabase = selectedSourceDatabase;
+			this.selectedTargetDatabase = selectedTargetDatabase;
+
+		}
         public void SetAlterTableSql(string alterTableSql)
         {
             this.alterTableSql = alterTableSql;
             textBoxAlterTableSql.Text = alterTableSql;
-        }
+
+			label12.Text = selectedSourceDatabase + ".dbo";
+			label4.Text = selectedTargetDatabase + ".dbo";
+		}
 
         private void btnExecuteAlterTable_Click(object sender, EventArgs e)
         {
