@@ -206,14 +206,27 @@ namespace NavicatClone
                 try
                 {
                     sqlConnection.Open();
-                    SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", sqlConnection);
+                    SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", sqlConnection);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             string columnName = reader["COLUMN_NAME"].ToString();
                             string dataType = reader["DATA_TYPE"].ToString();
-                            columnNamesAndTypes.Add($"{columnName} {dataType}");
+                            string characterMaximumLength = reader["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                            string columnAndType;
+
+                            // Include the character maximum length if available
+                            if (!string.IsNullOrEmpty(characterMaximumLength))
+                            {
+                                columnAndType = $"{columnName} {dataType}({characterMaximumLength})";
+                            }
+                            else
+                            {
+                                columnAndType = $"{columnName} {dataType}";
+                            }
+
+                            columnNamesAndTypes.Add(columnAndType);
                         }
                     }
                 }
@@ -299,7 +312,7 @@ namespace NavicatClone
 
                 foreach (string missingColumn in missingColumns)
                 {
-                    alterTableSql += $"ADD {missingColumn},\n";
+                    alterTableSql += $" ADD {missingColumn},\n";
                 }
 
                 // Remove the trailing comma and newline
@@ -324,14 +337,26 @@ namespace NavicatClone
                 try
                 {
                     sqlConnection.Open();
-                    SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", sqlConnection);
+                    SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", sqlConnection);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             string columnName = reader["COLUMN_NAME"].ToString();
                             string dataType = reader["DATA_TYPE"].ToString();
-                            string columnAndType = $"{columnName} {dataType}";
+                            string characterMaximumLength = reader["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                            string columnAndType;
+
+                            // Include the character maximum length if available
+                            if (!string.IsNullOrEmpty(characterMaximumLength))
+                            {
+                                columnAndType = $"{columnName} {dataType}({characterMaximumLength})";
+                            }
+                            else
+                            {
+                                columnAndType = $"{columnName} {dataType}";
+                            }
+
                             columnNamesAndTypes.Add(columnAndType);
                         }
                     }
@@ -345,6 +370,7 @@ namespace NavicatClone
 
             return columnNamesAndTypes;
         }
+
         public void ExecuteAlterTableSql(string alterTableSql)
         {
             try
