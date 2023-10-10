@@ -199,25 +199,38 @@ namespace NavicatClone
 
             return null;
         }
-
-
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             TreeNode selectedNode = e.Node;
-            // For source tables
-            LoadTableSqlQuery(selectedNode, textBox1, selectedSourceTables);
+          //  LoadTableSqlQuery(selectedNode, textBox1, selectedSourceTables);
 
             TreeNode matchingNode = FindMatchingTableNode(selectedNode, treeView2.Nodes);
             if (matchingNode != null)
             {
-                // For target tables
-                LoadTableSqlQuery(matchingNode, textBox2, selectedTargetTables);
+                // Check if the source and target tables are equal
+                if (selectedNode.Tag is string sourceTableName && matchingNode.Tag is string targetTableName && sourceTableName == targetTableName)
+                {
+                    // For equal tables, load SQL queries for both into textBox1 and textBox2
+                    LoadTableSqlQuery(matchingNode, textBox2, selectedTargetTables);
+                    LoadTableSqlQuery(selectedNode, textBox1, selectedSourceTables);
+                   
+                }
+                else
+                {
+                    // For non-equal tables, load only the target table SQL query into textBox2
+                    LoadTableSqlQuery(matchingNode, textBox2, selectedTargetTables);
+                }
             }
             else
             {
                 textBox2.Clear();
             }
         }
+
+
+
+
+
 
         private void treeView2_AfterSelect(object sender, TreeViewEventArgs e)
         {
