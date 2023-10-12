@@ -45,13 +45,13 @@
             treeView1 = new TreeView();
             treeView2 = new TreeView();
             panel4 = new Panel();
+            button1 = new Button();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
             label11 = new Label();
             label10 = new Label();
             label9 = new Label();
             label8 = new Label();
-            button1 = new Button();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -189,7 +189,6 @@
             // 
             // treeView1
             // 
-            treeView1.CheckBoxes = true;
             treeView1.Location = new Point(0, 144);
             treeView1.Name = "treeView1";
             treeView1.Size = new Size(525, 304);
@@ -217,9 +216,20 @@
             panel4.Size = new Size(1182, 248);
             panel4.TabIndex = 6;
             // 
+            // button1
+            // 
+            button1.Location = new Point(1082, 213);
+            button1.Name = "button1";
+            button1.Size = new Size(94, 29);
+            button1.TabIndex = 5;
+            button1.Text = "Next";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // textBox2
             // 
             textBox2.BorderStyle = BorderStyle.FixedSingle;
+            textBox2.Font = new Font("Franklin Gothic Demi Cond", 12F, FontStyle.Regular, GraphicsUnit.Point);
             textBox2.Location = new Point(674, 56);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
@@ -229,6 +239,7 @@
             // textBox1
             // 
             textBox1.BorderStyle = BorderStyle.FixedSingle;
+            textBox1.Font = new Font("Franklin Gothic Demi Cond", 12F, FontStyle.Regular, GraphicsUnit.Point);
             textBox1.Location = new Point(16, 56);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
@@ -270,16 +281,6 @@
             label8.Size = new Size(19, 20);
             label8.TabIndex = 7;
             label8.Text = "=";
-            // 
-            // button1
-            // 
-            button1.Location = new Point(1082, 213);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 5;
-            button1.Text = "Next";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // CompaireForm
             // 

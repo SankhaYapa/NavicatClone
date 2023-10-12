@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
+//DESKTOP-ADDF7PF\MSSQL
+
 namespace NavicatClone
 {
     public partial class SyncronizationForm : Form
@@ -180,15 +182,15 @@ namespace NavicatClone
             // Pass host information to the CompaireForm
             string sourceHost = selectedConnection2.Host;
             string targetHost = selectedConnection2.Host;
-            MessageBox.Show($"source host{sourceHost}");
+			MessageBox.Show($"Source Host - {sourceHost}\nTarget Host - {targetHost}", "Host Information");
 
-            // Open the CompaireForm with the selected source and target databases and host information.
-            using (CompaireForm compaireForm = new CompaireForm(selectedSourceDatabase, selectedTargetDatabase, sourceHost, targetHost))
+
+
+			// Open the CompaireForm with the selected source and target databases and host information.
+			using (CompaireForm compaireForm = new CompaireForm(selectedSourceDatabase, selectedTargetDatabase, sourceHost, targetHost))
             {
                 compaireForm.ShowDialog();
             }
         }
-
-
     }
 }

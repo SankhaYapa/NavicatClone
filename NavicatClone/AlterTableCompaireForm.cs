@@ -6,56 +6,37 @@ namespace NavicatClone
 {
     public partial class AlterTableCompaireForm : Form
     {
-        private Dictionary<string, string> selectedSourceTables;
-        private Dictionary<string, string> selectedTargetTables;
 
+        private string alterTableSql;
         public AlterTableCompaireForm()
         {
             InitializeComponent();
         }
-
-        public void SetSelectedSourceTables(Dictionary<string, string> sourceTables)
+        public void SetAlterTableSql(string alterTableSql)
         {
-            selectedSourceTables = sourceTables;
-            PopulateSourceTreeView();
+            this.alterTableSql = alterTableSql;
+            textBoxAlterTableSql.Text = alterTableSql;
         }
 
-        public void SetSelectedTargetTables(Dictionary<string, string> targetTables)
+        private void btnExecuteAlterTable_Click(object sender, EventArgs e)
         {
-            selectedTargetTables = targetTables;
-            PopulateTargetTreeView();
-        }
-
-        private void PopulateSourceTreeView()
-        {
-            treeView1.Nodes.Clear();
-            TreeNode sourceRootNode = new TreeNode("Selected Source Tables");
-
-            foreach (var table in selectedSourceTables)
+            if (!string.IsNullOrEmpty(alterTableSql))
             {
-                TreeNode tableNode = new TreeNode(table.Key);
-                tableNode.Tag = table.Value; // Store the SQL query in the tag
-                sourceRootNode.Nodes.Add(tableNode);
+                // Find the CompaireForm instance by name
+                CompaireForm compaireForm = Application.OpenForms["CompaireForm"] as CompaireForm;
+
+                if (compaireForm != null)
+                {
+                    // Execute the ALTER TABLE SQL statement from CompaireForm
+                    compaireForm.ExecuteAlterTableSql(alterTableSql);
+                }
+                this.Close(); // Close this form after executing the query
             }
-
-            treeView1.Nodes.Add(sourceRootNode);
-            sourceRootNode.Expand();
-        }
-
-        private void PopulateTargetTreeView()
-        {
-            treeView2.Nodes.Clear();
-            TreeNode targetRootNode = new TreeNode("Selected Target Tables");
-
-            foreach (var table in selectedTargetTables)
+            else
             {
-                TreeNode tableNode = new TreeNode(table.Key);
-                tableNode.Tag = table.Value; // Store the SQL query in the tag
-                targetRootNode.Nodes.Add(tableNode);
+                MessageBox.Show("No ALTER TABLE SQL statement to execute.");
             }
-
-            treeView2.Nodes.Add(targetRootNode);
-            targetRootNode.Expand();
         }
+
     }
 }

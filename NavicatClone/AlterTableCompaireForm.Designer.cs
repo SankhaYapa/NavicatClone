@@ -37,17 +37,12 @@
             pictureBox3 = new PictureBox();
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
-            treeView1 = new TreeView();
-            panel1 = new Panel();
-            panel2 = new Panel();
-            panel4 = new Panel();
-            treeView2 = new TreeView();
+            textBoxAlterTableSql = new TextBox();
+            btnExecuteAlterTable = new Button();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            panel2.SuspendLayout();
-            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // panel3
@@ -129,47 +124,25 @@
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
-            // treeView1
+            // textBoxAlterTableSql
             // 
-            treeView1.Dock = DockStyle.Fill;
-            treeView1.Location = new Point(0, 0);
-            treeView1.Name = "treeView1";
-            treeView1.Size = new Size(449, 351);
-            treeView1.TabIndex = 2;
+            textBoxAlterTableSql.BorderStyle = BorderStyle.FixedSingle;
+            textBoxAlterTableSql.Font = new Font("Franklin Gothic Demi", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxAlterTableSql.Location = new Point(0, 106);
+            textBoxAlterTableSql.Multiline = true;
+            textBoxAlterTableSql.Name = "textBoxAlterTableSql";
+            textBoxAlterTableSql.Size = new Size(1002, 432);
+            textBoxAlterTableSql.TabIndex = 4;
             // 
-            // panel1
+            // btnExecuteAlterTable
             // 
-            panel1.Dock = DockStyle.Bottom;
-            panel1.Location = new Point(0, 451);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1002, 125);
-            panel1.TabIndex = 3;
-            // 
-            // panel2
-            // 
-            panel2.Controls.Add(treeView1);
-            panel2.Dock = DockStyle.Left;
-            panel2.Location = new Point(0, 100);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(449, 351);
-            panel2.TabIndex = 4;
-            // 
-            // panel4
-            // 
-            panel4.Controls.Add(treeView2);
-            panel4.Dock = DockStyle.Right;
-            panel4.Location = new Point(550, 100);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(452, 351);
-            panel4.TabIndex = 5;
-            // 
-            // treeView2
-            // 
-            treeView2.Dock = DockStyle.Fill;
-            treeView2.Location = new Point(0, 0);
-            treeView2.Name = "treeView2";
-            treeView2.Size = new Size(452, 351);
-            treeView2.TabIndex = 0;
+            btnExecuteAlterTable.Location = new Point(896, 544);
+            btnExecuteAlterTable.Name = "btnExecuteAlterTable";
+            btnExecuteAlterTable.Size = new Size(94, 29);
+            btnExecuteAlterTable.TabIndex = 5;
+            btnExecuteAlterTable.Text = "Execute";
+            btnExecuteAlterTable.UseVisualStyleBackColor = true;
+            btnExecuteAlterTable.Click += btnExecuteAlterTable_Click;
             // 
             // AlterTableCompaireForm
             // 
@@ -177,9 +150,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1002, 576);
-            Controls.Add(panel4);
-            Controls.Add(panel2);
-            Controls.Add(panel1);
+            Controls.Add(btnExecuteAlterTable);
+            Controls.Add(textBoxAlterTableSql);
             Controls.Add(panel3);
             Name = "AlterTableCompaireForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -189,9 +161,8 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            panel2.ResumeLayout(false);
-            panel4.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -204,10 +175,7 @@
         private PictureBox pictureBox3;
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
-        private TreeView treeView1;
-        private Panel panel1;
-        private Panel panel2;
-        private Panel panel4;
-        private TreeView treeView2;
+        private TextBox textBoxAlterTableSql;
+        private Button btnExecuteAlterTable;
     }
 }

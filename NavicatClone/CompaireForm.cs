@@ -34,8 +34,8 @@ namespace NavicatClone
             TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
             TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
 
-            sourceNode.Nodes.AddRange(GetTablesForDatabase(selectedSourceDatabase, "Source").ToArray());
-            targetNode.Nodes.AddRange(GetTablesForDatabase(selectedTargetDatabase, "Target").ToArray());
+            sourceNode.Nodes.AddRange(GetTablesForDatabase(selectedSourceDatabase, "Source", sourceHost).ToArray());
+            targetNode.Nodes.AddRange(GetTablesForDatabase(selectedTargetDatabase, "Target", targetHost).ToArray());
 
             treeView1.Nodes.Add(sourceNode);
             treeView2.Nodes.Add(targetNode);
@@ -44,12 +44,12 @@ namespace NavicatClone
             targetNode.Expand();
         }
 
-        private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix)
+        private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix, string con)
         {
             List<TreeNode> tableNodes = new List<TreeNode>();
 
             // Replace the host name in the connection string with "DESKTOP-UKUD1D5"
-            string connectionString = $"Data Source={sourceHost};Initial Catalog={databaseName};Integrated Security=True;MultipleActiveResultSets=True";
+            string connectionString = $"Data Source={con};Initial Catalog={databaseName};Integrated Security=True;MultipleActiveResultSets=True";
             // Replace 'username' and 'password' with actual values if needed
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -65,6 +65,7 @@ namespace NavicatClone
                             string tableName = reader["TABLE_NAME"].ToString();
                             TreeNode tableNode = new TreeNode(prefix + " Table: " + tableName);
                             tableNode.Tag = tableName; // Store table name in the tag
+
 
                             // Retrieve column names for the table
                             List<string> columnNames = GetColumnNamesForTable(sqlConnection, tableName);
@@ -113,8 +114,52 @@ namespace NavicatClone
         private Dictionary<string, string> selectedSourceTables = new Dictionary<string, string>();
         private Dictionary<string, string> selectedTargetTables = new Dictionary<string, string>();
 
-        // Modify your LoadTableSqlQuery method to store the selected table and its SQL query
-        private void LoadTableSqlQuery(TreeNode tableNode, TextBox textBox, Dictionary<string, string> selectedTables)
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode selectedNode = e.Node;
+            // For source tables
+            LoadTableSqlQuery(selectedNode, textBox1, selectedSourceTables, true); // Pass true for source database
+
+
+            // Find the corresponding table in the target tree and set its SQL query in textBox2
+            TreeNode matchingNode = FindMatchingTableNode(selectedNode, treeView2.Nodes);
+            if (matchingNode != null)
+            {
+                // For target tables
+                LoadTableSqlQuery(selectedNode, textBox2, selectedTargetTables, false); // Pass false for target database
+
+            }
+            else
+            {
+                textBox2.Clear();
+            }
+        }
+
+        private void treeView2_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            TreeNode selectedNode = e.Node;
+            // For target tables
+            LoadTableSqlQuery(selectedNode, textBox2, selectedTargetTables, false); // Pass false for target database
+
+            // Find the corresponding table in the target tree and set its SQL query in textBox2
+            TreeNode matchingNode = FindMatchingTableNode(selectedNode, treeView1.Nodes);
+            if (matchingNode != null)
+            {
+                // For target tables
+                LoadTableSqlQuery(selectedNode, textBox1, selectedTargetTables, true); // Pass false for target database
+
+            }
+            else
+            {
+                textBox1.Clear();
+            }
+
+        }
+
+
+
+        private void LoadTableSqlQuery(TreeNode tableNode, TextBox textBox, Dictionary<string, string> selectedTables, bool isSourceDatabase)
         {
             // Check if the selected node has a table name in the tag
             if (tableNode.Tag is string tableName)
@@ -122,8 +167,8 @@ namespace NavicatClone
                 // Construct the SQL query to create the table
                 string sqlQuery = $"CREATE TABLE {tableName} (\n";
 
-                // Retrieve column names and types for the table
-                List<string> columnNamesAndTypes = GetColumnNamesAndTypesForTable(tableName);
+                // Retrieve column names and types for the table based on the database source
+                List<string> columnNamesAndTypes = GetColumnNamesAndTypesForTable(tableName, isSourceDatabase);
 
                 // Add column definitions to the SQL query
                 foreach (string column in columnNamesAndTypes)
@@ -145,12 +190,15 @@ namespace NavicatClone
             }
         }
 
-        private List<string> GetColumnNamesAndTypesForTable(string tableName)
+
+        private List<string> GetColumnNamesAndTypesForTable(string tableName, bool isSourceDatabase)
         {
             List<string> columnNamesAndTypes = new List<string>();
 
-            // Replace the host name in the connection string with "DESKTOP-UKUD1D5"
-            string connectionString = $"Data Source={sourceHost};Initial Catalog={selectedSourceDatabase};Integrated Security=True;MultipleActiveResultSets=True";
+            // Determine the connection string based on the database source
+            string connectionString = isSourceDatabase
+                ? $"Data Source={sourceHost};Initial Catalog={selectedSourceDatabase};Integrated Security=True;MultipleActiveResultSets=True"
+                : $"Data Source={targetHost};Initial Catalog={selectedTargetDatabase};Integrated Security=True;MultipleActiveResultSets=True";
             // Replace 'username' and 'password' with actual values if needed
 
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -158,14 +206,27 @@ namespace NavicatClone
                 try
                 {
                     sqlConnection.Open();
-                    SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", sqlConnection);
+                    SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", sqlConnection);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             string columnName = reader["COLUMN_NAME"].ToString();
                             string dataType = reader["DATA_TYPE"].ToString();
-                            columnNamesAndTypes.Add($"{columnName} {dataType}");
+                            string characterMaximumLength = reader["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                            string columnAndType;
+
+                            // Include the character maximum length if available
+                            if (!string.IsNullOrEmpty(characterMaximumLength))
+                            {
+                                columnAndType = $"{columnName} {dataType}({characterMaximumLength})";
+                            }
+                            else
+                            {
+                                columnAndType = $"{columnName} {dataType}";
+                            }
+
+                            columnNamesAndTypes.Add(columnAndType);
                         }
                     }
                 }
@@ -177,6 +238,7 @@ namespace NavicatClone
 
             return columnNamesAndTypes;
         }
+
 
         private TreeNode FindMatchingTableNode(TreeNode sourceNode, TreeNodeCollection targetNodes)
         {
@@ -201,45 +263,137 @@ namespace NavicatClone
         }
 
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            TreeNode selectedNode = e.Node;
-            // For source tables
-            LoadTableSqlQuery(selectedNode, textBox1, selectedSourceTables);
+            // Get the selected table names from the dictionaries
+            string sourceTableName = selectedSourceTables.Keys.FirstOrDefault();
+            string targetTableName = selectedTargetTables.Keys.FirstOrDefault();
 
-            TreeNode matchingNode = FindMatchingTableNode(selectedNode, treeView2.Nodes);
-            if (matchingNode != null)
+            if (!string.IsNullOrEmpty(sourceTableName) && !string.IsNullOrEmpty(targetTableName))
             {
-                // For target tables
-                LoadTableSqlQuery(matchingNode, textBox2, selectedTargetTables);
+                // Generate the ALTER TABLE SQL statement
+                string alterTableSql = GenerateAlterTableSql(sourceTableName, targetTableName);
+
+                // Show the ALTER TABLE SQL in AlterTableCompaireForm
+                using (AlterTableCompaireForm alterTableCompareForm = new AlterTableCompaireForm())
+                {
+                    alterTableCompareForm.SetAlterTableSql(alterTableSql); // Pass the SQL statement
+                    alterTableCompareForm.ShowDialog();
+                }
             }
             else
             {
-                textBox2.Clear();
+                MessageBox.Show("Please select tables to compare.");
             }
         }
 
-        private void treeView2_AfterSelect(object sender, TreeViewEventArgs e)
+
+        private string GenerateAlterTableSql(string sourceTableName, string targetTableName)
         {
-            // Handle the AfterSelect event for treeView2 (assuming this is the treeView for target database)
-            TreeNode selectedNode = e.Node;
-            // For target tables
-            LoadTableSqlQuery(selectedNode, textBox2, selectedTargetTables);
+            // Get the column names and data types for the source and target tables
+            List<string> sourceColumnsAndTypes = GetColumnNamesAndTypesForTable(selectedSourceDatabase, sourceTableName);
+            List<string> targetColumnsAndTypes = GetColumnNamesAndTypesForTable(selectedTargetDatabase, targetTableName);
+
+            // Find missing columns in the target table
+            List<string> missingColumns = new List<string>();
+            foreach (string sourceColumnAndType in sourceColumnsAndTypes)
+            {
+                // Check if the source column exists in the target columns
+                if (!targetColumnsAndTypes.Contains(sourceColumnAndType))
+                {
+                    missingColumns.Add(sourceColumnAndType);
+                }
+            }
+
+            // Generate the ALTER TABLE SQL statement
+            if (missingColumns.Count > 0)
+            {
+                string alterTableSql = $"ALTER TABLE {targetTableName}\n ADD";
+
+                foreach (string missingColumn in missingColumns)
+                {
+                    alterTableSql += $" {missingColumn},\n";
+                }
+
+                // Remove the trailing comma and newline
+                alterTableSql = alterTableSql.TrimEnd(',', '\n');
+
+                return alterTableSql;
+            }
+            else
+            {
+                return "No missing columns found.";
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private List<string> GetColumnNamesAndTypesForTable(string databaseName, string tableName)
         {
-            // Create an instance of AlterTableCompareForm
-            using (AlterTableCompaireForm alterTableCompareForm = new AlterTableCompaireForm())
+            List<string> columnNamesAndTypes = new List<string>();
+
+            string connectionString = $"Data Source={sourceHost};Initial Catalog={databaseName};Integrated Security=True;MultipleActiveResultSets=True";
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
-                // Pass the selected tables dictionaries to the AlterTableCompareForm
-                alterTableCompareForm.SetSelectedSourceTables(selectedSourceTables);
-                alterTableCompareForm.SetSelectedTargetTables(selectedTargetTables);
+                try
+                {
+                    sqlConnection.Open();
+                    SqlCommand command = new SqlCommand($"SELECT COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{tableName}'", sqlConnection);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string columnName = reader["COLUMN_NAME"].ToString();
+                            string dataType = reader["DATA_TYPE"].ToString();
+                            string characterMaximumLength = reader["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                            string columnAndType;
 
-                // Show AlterTableCompareForm as a dialog
-                DialogResult result = alterTableCompareForm.ShowDialog();
+                            // Include the character maximum length if available
+                            if (!string.IsNullOrEmpty(characterMaximumLength))
+                            {
+                                columnAndType = $"{columnName} {dataType}({characterMaximumLength})";
+                            }
+                            else
+                            {
+                                columnAndType = $"{columnName} {dataType}";
+                            }
 
-                // Handle the result if needed
+                            columnNamesAndTypes.Add(columnAndType);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle the exception gracefully, e.g., log it or show an error message.
+                    MessageBox.Show($"Error: {ex.Message}");
+                }
+            }
+
+            return columnNamesAndTypes;
+        }
+
+        public void ExecuteAlterTableSql(string alterTableSql)
+        {
+            try
+            {
+                // Create a SqlConnection to the target database where you want to execute the ALTER TABLE query
+                string targetConnectionString = $"Data Source={targetHost};Initial Catalog={selectedTargetDatabase};Integrated Security=True;MultipleActiveResultSets=True";
+                using (SqlConnection targetConnection = new SqlConnection(targetConnectionString))
+                {
+                    targetConnection.Open();
+
+                    // Create a SqlCommand with the ALTER TABLE SQL statement
+                    using (SqlCommand command = new SqlCommand(alterTableSql, targetConnection))
+                    {
+                        // Execute the SQL command
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("ALTER TABLE query executed successfully.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur during execution
+                MessageBox.Show($"Error: {ex.Message}");
             }
         }
 
