@@ -308,11 +308,11 @@ namespace NavicatClone
             // Generate the ALTER TABLE SQL statement
             if (missingColumns.Count > 0)
             {
-                string alterTableSql = $"ALTER TABLE {targetTableName}\n";
+                string alterTableSql = $"ALTER TABLE {targetTableName}\n ADD";
 
                 foreach (string missingColumn in missingColumns)
                 {
-                    alterTableSql += $" ADD {missingColumn},\n";
+                    alterTableSql += $" {missingColumn},\n";
                 }
 
                 // Remove the trailing comma and newline
