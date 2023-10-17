@@ -116,19 +116,19 @@ namespace NavicatClone
 
 			string connectionString = "";
 
-			if (selectedConnection.AuthenticationType == "Windows Authentication")
-			{
-				connectionString = $"Data Source={selectedConnection.Host};Initial Catalog=master;Integrated Security=True";
-				label26.Text = selectedConnection.Host;
-				label27.Text = selectedConnection.AuthenticationType;
+            if (selectedConnection.AuthenticationType == "Windows Authentication")
+            {
+                connectionString = $"Data Source={selectedConnection.Host};Initial Catalog=master;Integrated Security=True";
+                label26.Text = selectedConnection.Host;
+                label27.Text = selectedConnection.AuthenticationType;
 
-			}
-			else
-			{
-				connectionString = $"Data Source={selectedConnection.Host};Initial Catalog=master;User ID={selectedConnection.Username};Password={selectedConnection.Password}";
-				label26.Text = selectedConnection.Host;
-				label27.Text = selectedConnection.AuthenticationType;
-			}
+            }
+            else
+            {
+                connectionString = $"Data Source={selectedConnection.Host};Initial Catalog=master;User ID={selectedConnection.Username};Password={selectedConnection.Password}";
+                label26.Text = selectedConnection.Host;
+                label27.Text = selectedConnection.AuthenticationType;
+            }
 
 			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
 			{
