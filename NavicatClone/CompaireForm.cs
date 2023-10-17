@@ -265,6 +265,7 @@ namespace NavicatClone
 		}
 
 
+
 		private void button1_Click(object sender, EventArgs e)
 		{
 			// Get the selected table names from the dictionaries
@@ -274,17 +275,23 @@ namespace NavicatClone
 			string selectedConnectionName1 = selectedSourceDatabase;
 			string selectedConnectionName2 = selectedTargetDatabase;
 
-
 			if (!string.IsNullOrEmpty(sourceTableName) && !string.IsNullOrEmpty(targetTableName))
 			{
 				// Generate the ALTER TABLE SQL statement
 				string alterTableSql = GenerateAlterTableSql(sourceTableName, targetTableName);
 
-				// Show the ALTER TABLE SQL in AlterTableCompaireForm
-				using (AlterTableCompaireForm alterTableCompareForm = new AlterTableCompaireForm(selectedSourceDatabase, selectedTargetDatabase))
+				if (!string.IsNullOrEmpty(alterTableSql))
 				{
-					alterTableCompareForm.SetAlterTableSql(alterTableSql); // Pass the SQL statement
-					alterTableCompareForm.ShowDialog();
+					// Show the ALTER TABLE SQL in AlterTableCompaireForm
+					using (AlterTableCompaireForm alterTableCompareForm = new AlterTableCompaireForm(selectedSourceDatabase, selectedTargetDatabase))
+					{
+						alterTableCompareForm.SetAlterTableSql(alterTableSql); // Pass the SQL statement
+						alterTableCompareForm.ShowDialog();
+					}
+				}
+				else
+				{
+					MessageBox.Show("No missing columns found.");
 				}
 			}
 			else
@@ -293,7 +300,6 @@ namespace NavicatClone
 			}
 		}
 
-
 		private string GenerateAlterTableSql(string sourceTableName, string targetTableName)
 		{
 			// Get the column names and data types for the source and target tables
@@ -301,36 +307,59 @@ namespace NavicatClone
 			List<string> targetColumnsAndTypes = GetColumnNamesAndTypesForTable(selectedTargetDatabase, targetTableName);
 
 			// Find missing columns in the target table
-			List<string> missingColumns = new List<string>();
-			foreach (string sourceColumnAndType in sourceColumnsAndTypes)
-			{
-				// Check if the source column exists in the target columns
-				if (!targetColumnsAndTypes.Contains(sourceColumnAndType))
-				{
-					missingColumns.Add(sourceColumnAndType);
-				}
-			}
+			List<string> missingColumnsInTarget = sourceColumnsAndTypes.Except(targetColumnsAndTypes).ToList();
+			List<string> missingColumnsInSource = targetColumnsAndTypes.Except(sourceColumnsAndTypes).ToList();
 
 			// Generate the ALTER TABLE SQL statement
-			if (missingColumns.Count > 0)
-			{
-				string alterTableSql = $"ALTER TABLE {targetTableName}\n ADD";
+			string alterTableSql = "";
 
-				foreach (string missingColumn in missingColumns)
+			if (missingColumnsInTarget.Count > 0)
+			{
+				// Add columns to the target table
+				alterTableSql = $"ALTER TABLE {targetTableName}\n";
+				foreach (string missingColumn in missingColumnsInTarget)
 				{
-					alterTableSql += $" {missingColumn},\n";
+					alterTableSql += $" ADD {missingColumn},";
 				}
 
-				// Remove the trailing comma and newline
-				alterTableSql = alterTableSql.TrimEnd(',', '\n');
+				// Remove the trailing comma
+				alterTableSql = alterTableSql.TrimEnd(',') + ";";
+			}
 
-				return alterTableSql;
-			}
-			else
+			if (missingColumnsInSource.Count > 0)
 			{
-				return "No missing columns found.";
+				// Remove columns from the target table
+				if (!string.IsNullOrEmpty(alterTableSql))
+				{
+					alterTableSql += "\n"; // Add a newline if we already added columns.
+				}
+				else
+				{
+					alterTableSql = $"ALTER TABLE {targetTableName}\n";
+				}
+
+				foreach (string missingColumn in missingColumnsInSource)
+				{
+					string columnName = missingColumn.Split(' ')[0]; // Extract the column name
+					alterTableSql += $" DROP COLUMN {columnName},";
+				}
+
+				// Remove the trailing comma
+				alterTableSql = alterTableSql.TrimEnd(',') + ";";
 			}
+
+			if (string.IsNullOrEmpty(alterTableSql))
+			{
+				alterTableSql = "No missing columns found.";
+			}
+
+			return alterTableSql;
 		}
+
+
+
+
+
 
 		private List<string> GetColumnNamesAndTypesForTable(string databaseName, string tableName)
 		{
