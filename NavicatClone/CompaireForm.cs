@@ -22,31 +22,54 @@ namespace NavicatClone
 			PopulateTreeView();
 		}
 
-		private void PopulateTreeView()
-		{
-			treeView1.Nodes.Clear();
-			treeView2.Nodes.Clear();
+        private void PopulateTreeView()
+        {
+            treeView1.Nodes.Clear();
+            treeView2.Nodes.Clear();
 
-			// Set the connection name (database name) for label1
-			label1.Text = sourceHost;
-			label2.Text = targetHost;
-			label12.Text = selectedSourceDatabase + ".dbo";
-			label4.Text = selectedTargetDatabase + ".dbo";
+            label1.Text = sourceHost;
+            label2.Text = targetHost;
+            label12.Text = selectedSourceDatabase + ".dbo";
+            label4.Text = selectedTargetDatabase + ".dbo";
 
-			TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
-			TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
+            TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
+            TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
 
-			sourceNode.Nodes.AddRange(GetTablesForDatabase(selectedSourceDatabase, "Source", sourceHost).ToArray());
-			targetNode.Nodes.AddRange(GetTablesForDatabase(selectedTargetDatabase, "Target", targetHost).ToArray());
+            List<TreeNode> sourceTables = GetTablesForDatabase(selectedSourceDatabase, "Source", sourceHost);
+            List<TreeNode> targetTables = GetTablesForDatabase(selectedTargetDatabase, "Target", targetHost);
 
-			treeView1.Nodes.Add(sourceNode);
-			treeView2.Nodes.Add(targetNode);
+            sourceNode.Nodes.AddRange(sourceTables.ToArray());
+            targetNode.Nodes.AddRange(targetTables.ToArray());
 
-			sourceNode.Expand();
-			targetNode.Expand();
-		}
+            treeView1.Nodes.Add(sourceNode);
+            treeView2.Nodes.Add(targetNode);
 
-		private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix, string con)
+            // Expand the nodes with matching table names
+            ExpandMatchingTableNodes(sourceNode, targetNode);
+
+            sourceNode.Expand();
+            targetNode.Expand();
+        }
+
+        private void ExpandMatchingTableNodes(TreeNode sourceNode, TreeNode targetNode)
+        {
+            foreach (TreeNode sourceTableNode in sourceNode.Nodes)
+            {
+                if (sourceTableNode.Tag is string sourceTableName)
+                {
+                    foreach (TreeNode targetTableNode in targetNode.Nodes)
+                    {
+                        if (targetTableNode.Tag is string targetTableName && sourceTableName == targetTableName)
+                        {
+                            sourceTableNode.Expand();
+                            targetTableNode.Expand();
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix, string con)
 		{
 			List<TreeNode> tableNodes = new List<TreeNode>();
 
