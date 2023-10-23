@@ -339,7 +339,7 @@ namespace NavicatClone
 			if (missingColumnsInTarget.Count > 0)
 			{
 				// Add columns to the target table
-				alterTableSql = $"ALTER TABLE {targetTableName}\n";
+				alterTableSql = $"ALTER TABLE [{targetTableName}]\n";
 				foreach (string missingColumn in missingColumnsInTarget)
 				{
 					alterTableSql += $" ADD {missingColumn},";
@@ -459,7 +459,5 @@ namespace NavicatClone
 		{
 
 		}
-
-		// The rest of your code remains the same.
 	}
 }

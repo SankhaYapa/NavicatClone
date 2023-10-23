@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 
 namespace NavicatClone
 {
@@ -270,3 +272,4 @@ namespace NavicatClone
         }
     }
 }
+
