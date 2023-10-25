@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Windows.Forms;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
+using System.Xml.Linq;
 
 namespace NavicatClone
 {
@@ -84,12 +85,8 @@ namespace NavicatClone
 
                             // Add "Tables," "Views," and "Functions" nodes as child nodes to the database node
                             TreeNode tablesNode = new TreeNode("Tables");
-                            TreeNode viewsNode = new TreeNode("Views");
-                            TreeNode functionsNode = new TreeNode("Functions");
 
                             dbNode.Nodes.Add(tablesNode); // Add "Tables" node to the database node
-                            dbNode.Nodes.Add(viewsNode);  // Add "Views" node to the database node
-                            dbNode.Nodes.Add(functionsNode);  // Add "Functions" node to the database node
 
                             // Fetch table names for the current database using a new connection
                             using (SqlConnection tablesConnection = new SqlConnection(connectionString))
@@ -107,6 +104,9 @@ namespace NavicatClone
                                 }
 
                                 tablesReader.Close(); // Close the tablesReader
+                                TreeNode procedureNode = new TreeNode("storedProcedure");
+                                dbNode.Nodes.Add(procedureNode);
+                                PopulateStoredProcedures(procedureNode, connectionDetails, dbName);
                             }
 
                             // Add the database node to the connectionNode
@@ -144,6 +144,8 @@ namespace NavicatClone
             }
         }
 
+
+        
         private void PopulateDatabases(TreeNode connectionNode, ConnectionDetails connectionDetails)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionDetails.ConnectionString))
@@ -191,14 +193,39 @@ namespace NavicatClone
                     TreeNode tableNode = new TreeNode(tableName);
                     dbNode.Nodes.Add(tableNode);
                 }
+
+                TreeNode procedureNode = new TreeNode("storedProcedure");
+                dbNode.Nodes.Add(procedureNode);
+                PopulateStoredProcedures(procedureNode, connectionDetails, dbName);
             }
         }
+
+        private void PopulateStoredProcedures(TreeNode dbNode, ConnectionDetails connectionDetails, string dbName)
+        {
+            using (SqlConnection procedureConnection = new SqlConnection(connectionDetails.ConnectionString))
+            {
+                procedureConnection.Open();
+                SqlCommand proceduresCommand = new SqlCommand($"SELECT name FROM {dbName}.sys.procedures", procedureConnection);
+                SqlDataReader procedureReader = proceduresCommand.ExecuteReader();
+
+                while (procedureReader.Read())
+                {
+                    string procedureName = procedureReader["name"].ToString();
+                    TreeNode procedureNode = new TreeNode(procedureName);
+                    dbNode.Nodes.Add(procedureNode);
+                }
+            }
+        }
+
+
+
+
         private void SaveConnectionsToFile()
         {
             try
             {
                 string json = JsonConvert.SerializeObject(connections);
-                string filePath = "F:\\ASP NET\\NavicatClone\\NavicatClone\\connections.json";
+                string filePath = "./connections.json";
                 File.WriteAllText(filePath, json);
             }
             catch (Exception ex)
@@ -211,7 +238,7 @@ namespace NavicatClone
         {
             try
             {
-                string filePath = "F:\\ASP NET\\NavicatClone\\NavicatClone\\connections.json";
+                string filePath = "./connections.json";
 
                 if (File.Exists(filePath))
                 {
