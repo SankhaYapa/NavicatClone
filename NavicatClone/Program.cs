@@ -10,8 +10,6 @@ namespace NavicatClone
 		[STAThread]
 		static void Main()
 		{
-	
-			// Retrieve the connection string
 
 			// Use the connection string in your application
 			ApplicationConfiguration.Initialize();

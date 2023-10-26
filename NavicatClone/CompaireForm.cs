@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace NavicatClone
 {
@@ -22,54 +23,63 @@ namespace NavicatClone
 			PopulateTreeView();
 		}
 
-        private void PopulateTreeView()
-        {
-            treeView1.Nodes.Clear();
-            treeView2.Nodes.Clear();
+		private void PopulateTreeView()
+		{
+			treeView1.Nodes.Clear();
+			treeView2.Nodes.Clear();
 
-            label1.Text = sourceHost;
-            label2.Text = targetHost;
-            label12.Text = selectedSourceDatabase + ".dbo";
-            label4.Text = selectedTargetDatabase + ".dbo";
+			label1.Text = sourceHost;
+			label2.Text = targetHost;
+			label12.Text = selectedSourceDatabase + ".dbo";
+			label4.Text = selectedTargetDatabase + ".dbo";
 
-            TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
-            TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
+			TreeNode sourceNode = new TreeNode("Source Database: " + selectedSourceDatabase);
+			TreeNode targetNode = new TreeNode("Target Database: " + selectedTargetDatabase);
 
-            List<TreeNode> sourceTables = GetTablesForDatabase(selectedSourceDatabase, "Source", sourceHost);
-            List<TreeNode> targetTables = GetTablesForDatabase(selectedTargetDatabase, "Target", targetHost);
 
-            sourceNode.Nodes.AddRange(sourceTables.ToArray());
-            targetNode.Nodes.AddRange(targetTables.ToArray());
 
-            treeView1.Nodes.Add(sourceNode);
-            treeView2.Nodes.Add(targetNode);
+			List<TreeNode> sourceTables = GetTablesForDatabase(selectedSourceDatabase, "Source", sourceHost);
+			List<TreeNode> targetTables = GetTablesForDatabase(selectedTargetDatabase, "Target", targetHost);
+			List<TreeNode> sourceProcedures = GetProceduresForDatabase(selectedSourceDatabase, "Source", sourceHost);
+			List<TreeNode> targetProcedures = GetProceduresForDatabase(selectedTargetDatabase, "Target", targetHost);
 
-            // Expand the nodes with matching table names
-            ExpandMatchingTableNodes(sourceNode, targetNode);
 
-            sourceNode.Expand();
-            targetNode.Expand();
-        }
+			sourceNode.Nodes.AddRange(sourceTables.ToArray());
+			targetNode.Nodes.AddRange(targetTables.ToArray());
 
-        private void ExpandMatchingTableNodes(TreeNode sourceNode, TreeNode targetNode)
-        {
-            foreach (TreeNode sourceTableNode in sourceNode.Nodes)
-            {
-                if (sourceTableNode.Tag is string sourceTableName)
-                {
-                    foreach (TreeNode targetTableNode in targetNode.Nodes)
-                    {
-                        if (targetTableNode.Tag is string targetTableName && sourceTableName == targetTableName)
-                        {
-                            sourceTableNode.Expand();
-                            targetTableNode.Expand();
-                        }
-                    }
-                }
-            }
-        }
+			sourceNode.Nodes.AddRange(sourceProcedures.ToArray());
+			targetNode.Nodes.AddRange(targetProcedures.ToArray());
 
-        private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix, string con)
+			treeView1.Nodes.Add(sourceNode);
+			treeView2.Nodes.Add(targetNode);
+
+
+			// Expand the nodes with matching table names
+			ExpandMatchingTableNodes(sourceNode, targetNode);
+
+			sourceNode.Expand();
+			targetNode.Expand();
+		}
+
+		private void ExpandMatchingTableNodes(TreeNode sourceNode, TreeNode targetNode)
+		{
+			foreach (TreeNode sourceTableNode in sourceNode.Nodes)
+			{
+				if (sourceTableNode.Tag is string sourceTableName)
+				{
+					foreach (TreeNode targetTableNode in targetNode.Nodes)
+					{
+						if (targetTableNode.Tag is string targetTableName && sourceTableName == targetTableName)
+						{
+							sourceTableNode.Expand();
+							targetTableNode.Expand();
+						}
+					}
+				}
+			}
+		}
+
+		private List<TreeNode> GetTablesForDatabase(string databaseName, string prefix, string con)
 		{
 			List<TreeNode> tableNodes = new List<TreeNode>();
 
@@ -112,6 +122,9 @@ namespace NavicatClone
 			return tableNodes;
 		}
 
+
+
+
 		private List<string> GetColumnNamesForTable(SqlConnection connection, string tableName)
 		{
 			List<string> columnNames = new List<string>();
@@ -142,10 +155,11 @@ namespace NavicatClone
 
 		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
 		{
+
 			TreeNode selectedNode = e.Node;
 			// For source tables
 			LoadTableSqlQuery(selectedNode, textBox1, selectedSourceTables, true); // Pass true for source database
-
+	
 
 			// Find the corresponding table in the target tree and set its SQL query in textBox2
 			TreeNode matchingNode = FindMatchingTableNode(selectedNode, treeView2.Nodes);
@@ -289,7 +303,53 @@ namespace NavicatClone
 
 
 
-		private void button1_Click(object sender, EventArgs e)
+
+
+
+		private List<TreeNode> GetProceduresForDatabase(string databaseName, string prefix, string con)
+		{
+
+			List<TreeNode> procedureNodes = new List<TreeNode>();
+
+			// Replace the host name in the connection string with "DESKTOP-UKUD1D5"
+			string connectionString = $"Data Source={con};Initial Catalog={databaseName};Integrated Security=True;MultipleActiveResultSets=True";
+			// Replace 'username' and 'password' with actual values if needed
+
+			using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+			{
+				try
+				{
+					sqlConnection.Open();
+					SqlCommand proceduresCommand = new SqlCommand($"SELECT name FROM {databaseName}.sys.procedures", sqlConnection);
+					using (SqlDataReader reader = proceduresCommand.ExecuteReader()) // Use 'using' here
+					{
+						while (reader.Read())
+						{
+							string procedureName = reader["name"].ToString();
+							TreeNode procedureNode = new TreeNode(prefix + " Procedure: " + procedureName);
+							procedureNode.Tag = procedureName; // Store table name in the tag
+
+
+
+							procedureNodes.Add(procedureNode);
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"Error: {ex.Message}");
+				}
+			}
+
+			return procedureNodes;
+		}
+
+
+
+
+
+
+			private void button1_Click(object sender, EventArgs e)
 		{
 			// Get the selected table names from the dictionaries
 			string sourceTableName = selectedSourceTables.Keys.FirstOrDefault();
@@ -458,6 +518,11 @@ namespace NavicatClone
 		private void panel3_Paint(object sender, PaintEventArgs e)
 		{
 
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			this.Close();
 		}
 	}
 }
