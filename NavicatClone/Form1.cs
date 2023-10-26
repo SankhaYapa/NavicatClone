@@ -211,7 +211,7 @@ namespace NavicatClone
         {
             try
             {
-                string filePath = "F:\\ASP NET\\NavicatClone\\NavicatClone\\connections.json";
+                string filePath = "C:\\Users\\user\\Source\\Repos\\NavicatClone\\NavicatClone\\connections.json";
 
                 if (File.Exists(filePath))
                 {

@@ -1,1 +1,34 @@
-[{"ConnectionName":"1212","Host":"DESKTOP-UKUD1D5","InitialDatabase":null,"AuthenticationType":"Windows Authentication","Username":null,"Password":null},{"ConnectionName":"sdada","Host":"DESKTOP-UKUD1D5","InitialDatabase":null,"AuthenticationType":"Windows Authentication","Username":null,"Password":null},{"ConnectionName":"sa","Host":"DESKTOP-UKUD1D5","InitialDatabase":null,"AuthenticationType":"Windows Authentication","Username":null,"Password":null},{"ConnectionName":"assa","Host":"DESKTOP-UKUD1D5","InitialDatabase":null,"AuthenticationType":"Windows Authentication","Username":null,"Password":null}]
+[
+    {
+        "ConnectionName": "1212",
+        "Host": "DESKTOP-ADDF7PF\\MSSQL",
+        "InitialDatabase": null,
+        "AuthenticationType": "Windows Authentication",
+        "Username": null,
+        "Password": null
+    },
+    {
+        "ConnectionName": "sdada",
+        "Host": "DESKTOP-ADDF7PF\\MSSQL5",
+        "InitialDatabase": null,
+        "AuthenticationType": "Windows Authentication",
+        "Username": null,
+        "Password": null
+    },
+    {
+        "ConnectionName": "sa",
+        "Host": "DESKTOP-ADDF7PF\\MSSQL",
+        "InitialDatabase": null,
+        "AuthenticationType": "Windows Authentication",
+        "Username": null,
+        "Password": null
+    },
+    {
+        "ConnectionName": "assa",
+        "Host": "DESKTOP-ADDF7PF\\MSSQL",
+        "InitialDatabase": null,
+        "AuthenticationType": "Windows Authentication",
+        "Username": null,
+        "Password": null
+    }
+]
