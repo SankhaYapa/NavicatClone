@@ -109,7 +109,7 @@ namespace NavicatClone
                                 PopulateStoredProcedures(procedureNode, connectionDetails, dbName);
                             }
 
-                            // Add the database node to the connectionNode
+                            
                             connectionNode.Nodes.Add(dbNode);
                         }
 
