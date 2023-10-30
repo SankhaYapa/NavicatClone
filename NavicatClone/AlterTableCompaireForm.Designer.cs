@@ -39,6 +39,7 @@
 			pictureBox1 = new PictureBox();
 			textBoxAlterTableSql = new TextBox();
 			btnExecuteAlterTable = new Button();
+			button1 = new Button();
 			panel3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
 			((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -144,12 +145,23 @@
 			btnExecuteAlterTable.UseVisualStyleBackColor = true;
 			btnExecuteAlterTable.Click += btnExecuteAlterTable_Click;
 			// 
+			// button1
+			// 
+			button1.Location = new Point(787, 544);
+			button1.Name = "button1";
+			button1.Size = new Size(94, 29);
+			button1.TabIndex = 6;
+			button1.Text = "Back";
+			button1.UseVisualStyleBackColor = true;
+			button1.Click += button1_Click;
+			// 
 			// AlterTableCompaireForm
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.White;
 			ClientSize = new Size(1002, 576);
+			Controls.Add(button1);
 			Controls.Add(btnExecuteAlterTable);
 			Controls.Add(textBoxAlterTableSql);
 			Controls.Add(panel3);
@@ -177,5 +189,6 @@
 		private PictureBox pictureBox1;
 		private TextBox textBoxAlterTableSql;
 		private Button btnExecuteAlterTable;
+		private Button button1;
 	}
 }
