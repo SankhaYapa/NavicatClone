@@ -77,6 +77,7 @@
 			label33 = new Label();
 			label34 = new Label();
 			label35 = new Label();
+			button1 = new Button();
 			panel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
 			((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -521,12 +522,23 @@
 			label35.TabIndex = 44;
 			label35.Text = "--";
 			// 
+			// button1
+			// 
+			button1.Location = new Point(919, 645);
+			button1.Name = "button1";
+			button1.Size = new Size(94, 29);
+			button1.TabIndex = 45;
+			button1.Text = "Back";
+			button1.UseVisualStyleBackColor = true;
+			button1.Click += button1_Click;
+			// 
 			// SyncronizationForm
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
 			AutoScaleMode = AutoScaleMode.Font;
 			BackColor = Color.White;
 			ClientSize = new Size(1182, 686);
+			Controls.Add(button1);
 			Controls.Add(label35);
 			Controls.Add(label34);
 			Controls.Add(label33);
@@ -633,5 +645,6 @@
 		private Label label33;
 		private Label label34;
 		private Label label35;
+		private Button button1;
 	}
 }

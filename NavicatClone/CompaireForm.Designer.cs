@@ -52,6 +52,7 @@
 			label10 = new Label();
 			label9 = new Label();
 			label8 = new Label();
+			button2 = new Button();
 			panel3.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
 			((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -204,6 +205,7 @@
 			// 
 			// panel4
 			// 
+			panel4.Controls.Add(button2);
 			panel4.Controls.Add(button1);
 			panel4.Controls.Add(textBox2);
 			panel4.Controls.Add(textBox1);
@@ -212,12 +214,12 @@
 			panel4.Controls.Add(label9);
 			panel4.Location = new Point(0, 454);
 			panel4.Name = "panel4";
-			panel4.Size = new Size(1182, 248);
+			panel4.Size = new Size(1182, 258);
 			panel4.TabIndex = 6;
 			// 
 			// button1
 			// 
-			button1.Location = new Point(1082, 213);
+			button1.Location = new Point(1085, 229);
 			button1.Name = "button1";
 			button1.Size = new Size(94, 29);
 			button1.TabIndex = 5;
@@ -281,6 +283,16 @@
 			label8.TabIndex = 7;
 			label8.Text = "=";
 			// 
+			// button2
+			// 
+			button2.Location = new Point(974, 229);
+			button2.Name = "button2";
+			button2.Size = new Size(94, 29);
+			button2.TabIndex = 6;
+			button2.Text = "Back";
+			button2.UseVisualStyleBackColor = true;
+			button2.Click += button2_Click;
+			// 
 			// CompaireForm
 			// 
 			AutoScaleDimensions = new SizeF(8F, 20F);
@@ -336,5 +348,6 @@
 		private TextBox textBox1;
 		private Label label12;
 		private Button button1;
+		private Button button2;
 	}
 }
