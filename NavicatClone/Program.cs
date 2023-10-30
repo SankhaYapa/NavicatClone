@@ -10,17 +10,10 @@ namespace NavicatClone
 		[STAThread]
 		static void Main()
 		{
-			IConfiguration configuration = new ConfigurationBuilder()
-			  .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-			  .AddJsonFile("appsetting.json")
-			  .Build();
-
-			// Retrieve the connection string
-			string connectionString = configuration.GetConnectionString("MyConnection");
-
+		
 			// Use the connection string in your application
 			ApplicationConfiguration.Initialize();
-			Application.Run(new Form1(connectionString));
+			Application.Run(new Form1());
 		}
 	}
 }

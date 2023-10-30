@@ -198,7 +198,7 @@ namespace NavicatClone
             try
             {
                 string json = JsonConvert.SerializeObject(connections);
-                string filePath = "F:\\ASP NET\\NavicatClone\\NavicatClone\\connections.json";
+                string filePath = "./connections.json";
                 File.WriteAllText(filePath, json);
             }
             catch (Exception ex)

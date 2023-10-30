@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NavicatClone
 {
-    internal class Logger
+    public class Logger
     {
         private string logFilePath;
 

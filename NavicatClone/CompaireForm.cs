@@ -183,8 +183,28 @@ namespace NavicatClone
 		}
 
 
+        private TreeNode FindMatchingTableNode(TreeNode sourceNode, TreeNodeCollection targetNodes)
+        {
+            if (sourceNode.Tag is string sourceTableName)
+            {
+                foreach (TreeNode targetNode in targetNodes)
+                {
+                    if (targetNode.Tag is string targetTableName && sourceTableName == targetTableName)
+                    {
+                        return targetNode;
+                    }
 
-		private void LoadTableSqlQuery(TreeNode tableNode, TextBox textBox, Dictionary<string, string> selectedTables, bool isSourceDatabase)
+                    TreeNode matchingChildNode = FindMatchingTableNode(sourceNode, targetNode.Nodes);
+                    if (matchingChildNode != null)
+                    {
+                        return matchingChildNode;
+                    }
+                }
+            }
+
+            return null;
+        }
+        private void LoadTableSqlQuery(TreeNode tableNode, TextBox textBox, Dictionary<string, string> selectedTables, bool isSourceDatabase)
 		{
 			// Check if the selected node has a table name in the tag
 			if (tableNode.Tag is string tableName)
@@ -265,27 +285,7 @@ namespace NavicatClone
 		}
 
 
-		private TreeNode FindMatchingTableNode(TreeNode sourceNode, TreeNodeCollection targetNodes)
-		{
-			if (sourceNode.Tag is string sourceTableName)
-			{
-				foreach (TreeNode targetNode in targetNodes)
-				{
-					if (targetNode.Tag is string targetTableName && sourceTableName == targetTableName)
-					{
-						return targetNode;
-					}
 
-					TreeNode matchingChildNode = FindMatchingTableNode(sourceNode, targetNode.Nodes);
-					if (matchingChildNode != null)
-					{
-						return matchingChildNode;
-					}
-				}
-			}
-
-			return null;
-		}
 
 
 

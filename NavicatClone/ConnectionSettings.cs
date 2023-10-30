@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NavicatClone
 {
-	public class ConnectionSettings
+	public  class ConnectionSettings
 	{
 		public string Server { get; set; }
 		public string Database { get; set; }

@@ -1,5 +1,0 @@
-{
-    "ConnectionStrings": {
-        "MyConnection": "Server=DESKTOP-ADDF7PF\\MSSQL;Database=test1;Integrated Security=True;"
-    }
-}
